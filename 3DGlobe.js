@@ -8,6 +8,9 @@ d3.select(window)
 var width = 960,
     height = 500;
 
+numCountries = 100 //unknown so far
+var colorScale = d3.scale.linear().domain([0, numCountries]).range(['beige', 'red']); //just two random colors for now
+
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
@@ -122,7 +125,7 @@ function ready(error, world) {
 
     links.push({
         coord: [-122.3321, 47.6062], //seattle
-        color: "red"                 //just a stub color
+        color: colorScale(5)                 //just a stub color
     })
 
     // build geoJSON features from links array for points
