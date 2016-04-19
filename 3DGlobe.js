@@ -5,8 +5,8 @@ d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
 
-var width = 960,
-    height = 500;
+var width = 1440,
+    height = 750;
 
 numCountries = 100 //unknown so far
 var colorScale = d3.scale.linear().domain([0, numCountries]).range(['beige', 'red']); //just two random colors for now
@@ -14,7 +14,7 @@ var colorScale = d3.scale.linear().domain([0, numCountries]).range(['beige', 're
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(220);
+    .scale(350);
 
 var sky = d3.geo.orthographic()
     .translate([width / 2, height / 2])
@@ -26,16 +26,6 @@ var path = d3.geo.path().projection(proj).pointRadius(function (d) {
         return d.properties.radius
     }
 });
-
-var swoosh = d3.svg.line()
-    .x(function (d) {
-        return d[0]
-    })
-    .y(function (d) {
-        return d[1]
-    })
-    .interpolate("cardinal")
-    .tension(.0);
 
 var links = [],
     points = [];
@@ -94,8 +84,8 @@ function ready(error, world) {
         .attr("stop-opacity", "0")
 
     svg.append("ellipse")
-        .attr("cx", 440).attr("cy", 450)
-        .attr("rx", proj.scale() * .90)
+        .attr("cx", 500).attr("cy", 675)
+        .attr("rx", proj.scale() * 1.3)
         .attr("ry", proj.scale() * .25)
         .attr("class", "noclicks")
         .style("fill", "url(#drop_shadow)");
@@ -124,8 +114,8 @@ function ready(error, world) {
         .style("fill", "url(#globe_shading)");
 
     links.push({
-        coord: [-122.3321, 47.6062], //seattle
-        color: colorScale(5)                 //just a stub color
+        coord: [-122.3321, 47.6062], //Seattle
+        color: colorScale(50)         //just a stub color
     })
 
     // build geoJSON features from links array for points

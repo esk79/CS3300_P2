@@ -4,19 +4,33 @@
     body {
         background-color: #222222;
     }
+
     .land {
         fill: #999;
         stroke-opacity: 1;
     }
+
     .graticule {
         fill: none;
         stroke: black;
-        stroke-width:.5;
-        opacity:.2;
+        stroke-width: .5;
+        opacity: .2;
     }
-    .noclicks { pointer-events:none; }
 
-    .point {  opacity:.6; }
+    .noclicks {
+        pointer-events: none;
+    }
+
+    .point {
+        opacity: .6;
+    }
+
+    svg {
+        margin-top: 10%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
 
 </style>
 <Title>Visual Server Ping</Title>
@@ -25,4 +39,4 @@
 <script src="https://d3js.org/queue.v1.min.js"></script>
 <script src="https://d3js.org/topojson.v0.min.js"></script>
 <script src="3DGlobe.js"></script>
-
+</body>
