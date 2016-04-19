@@ -121,37 +121,24 @@ function ready(error, world) {
         .style("fill", "url(#globe_shading)");
 
     links.push({
-        source: [-122.3321, 47.6062],  //seattle
-        target: [-76.5019, 42.4440]    //ithaca
+        coord: [-122.3321, 47.6062], //seattle
+        color: "red"                 //just a stub color
     })
 
     // build geoJSON features from links array for points
     links.forEach(function (e, i, a) {
-        var point1 = {
+        var point = {
             "type": "Feature",
             "properties": {
-                "radius": 20,
-                "color": "blue"
+                "radius": 15,
+                "color": e.color
             },
             "geometry": {
                 "type": "Point",
-                "coordinates": [-122.3321, 47.6062]
+                "coordinates": e.coord
             }
         };
-        var point2 = {
-            "type": "Feature",
-            "properties": {
-                "radius": 10,
-                "color": "red"
-            },
-            "geometry": {
-                "type": "Point",
-                "coordinates": [-76.5019, 42.4440]
-            }
-        };
-        points.push(point1)
-        points.push(point2)
-
+        points.push(point)
     })
 
     // plot points on map from geoJSON objects
