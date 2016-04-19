@@ -27,7 +27,19 @@ var path = d3.geo.path().projection(proj).pointRadius(function (d) {
     }
 });
 
-var links = [],
+var links = [{
+        coord: [-122.3321, 47.6062], //Seattle
+        color: colorScale(50), //just a stub color
+        radius: 15
+    }, {
+        coord: [-130.3321, 50.6062],
+        color: colorScale(10),
+        radius: 20
+    }, {
+        coord: [8.7832, 34.5085],
+        color: colorScale(78),
+        radius: 25
+    }],
     points = [];
 
 var svg = d3.select("body").append("svg")
@@ -113,17 +125,13 @@ function ready(error, world) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    links.push({
-        coord: [-122.3321, 47.6062], //Seattle
-        color: colorScale(50)         //just a stub color
-    })
 
     // build geoJSON features from links array for points
     links.forEach(function (e, i, a) {
         var point = {
             "type": "Feature",
             "properties": {
-                "radius": 15,
+                "radius": e.radius,
                 "color": e.color
             },
             "geometry": {
