@@ -8,8 +8,8 @@ d3.select(window)
 var width = 1440,
     height = 750;
 
-var colorScale = d3.scale.linear().domain([0, 10]).range(['#8b0000','#004499']) //just two random colors for now
-var radiusScale = d3.scale.sqrt().domain([0, 10]).range([0,20])
+var colorScale = d3.scale.linear().domain([0, 10]).range(['#8b0000', '#004499']) //just two random colors for now
+var radiusScale = d3.scale.sqrt().domain([0, 10]).range([0, 20])
 
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
@@ -118,7 +118,7 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    var clicked = "HDI"
+    var clicked = "GDP/capita"
     list = createList(clicked)
     createTable(list, ["Country", clicked], table)
 
@@ -147,7 +147,7 @@ function ready(error, world, data) {
         .style("fill", function (d) {
             return d.properties.color
         })
-        .on("click", function (d){ // this doesn't appear to work
+        .on("click", function (d) { // this doesn't appear to work
             console.log(d.properties.country);
         })
         .attr("d", path);
@@ -188,38 +188,40 @@ function mouseup() {
 //http://stackoverflow.com/questions/2466356/javascript-object-list-sorting-by-object-property
 function sortObj(list, key, increase) {
     function compare(a, b) {
-        a = a[key];
-        b = b[key];
-        var type = (typeof(a) === 'string' ||
-        typeof(b) === 'string') ? 'string' : 'number';
-        var result;
-        if (type === 'string') result = a.localeCompare(b);
-        else result = a - b;
-        return result;
+        a = parseFloat(a[key]);
+        b = parseFloat(b[key]);
+        if (a < b) return -1;
+        if (a > b) return 1;
+        return 0;
     }
-    var sorted = list.sort(compare)
+
+    var sorted = list.sort(compare).filter(function (d) {
+        return d[key] != ".."
+    })
     colorScale.domain([sorted[0][key], sorted[sorted.length - 1][key]])
     radiusScale.domain([sorted[0][key], sorted[sorted.length - 1][key]])
     return increase ? sorted.reverse() : sorted
 }
 
-increaseList = ["HDI"]
-function createList(clicked){
+increaseList = ["HDI", "GDP/capita"]
+function createList(clicked) {
     increase = (increaseList.indexOf(clicked) >= 0)
     sorted = sortObj(countryStats, clicked, increase)
-    sorted.forEach(function(d){
-        links.push({
-            coord: [d.Long, d.Lat],
-            color: colorScale(d[clicked]),
-            radius: radiusScale(d[clicked]),
-            country: d.Country
-        })
+    sorted.forEach(function (d) {
+        if (d[clicked] != "..") {
+            links.push({
+                coord: [d.Long, d.Lat],
+                color: colorScale(d[clicked]),
+                radius: radiusScale(d[clicked]),
+                country: d.Country
+            })
+        }
     })
     return sorted
 }
 
 function createTable(data, columns, problem) {
-    var table = d3.select(problem).append("table").attr("class","container")
+    var table = d3.select(problem).append("table").attr("class", "container")
 
     var thead = table.append("thead").append("tr")
         .selectAll("th")
