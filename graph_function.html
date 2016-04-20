@@ -10,6 +10,10 @@
     .axis path { fill: none; stroke: #aaa; }
     .axis line { stroke: #aaa; }
     .axis text { fill: #aaa; font-size: .7em; }
+    .point {fill: rgba(200,0,255,.4);}
+    .selectedPoint {fill: rgba(200,255,0,.6);}
+    .pointLabel {display:none;}
+    .selectedLabel {display:block; font-size:.7em;}
 
 </style>
 </head>
@@ -19,7 +23,7 @@
 		<form id = "selectData">
 			X-Value: 
 			<select id = "xValue" name = "xValue">
-				<option value = "1">Option 1</option>
+				<option value = "1" selected = "selected">Option 1</option>
 				<option value = "2">Option 2</option>
 				<option value = "3">Option 3</option>
 			</select>
@@ -27,12 +31,12 @@
 			Y-Value:
 			<select id = "yValue" name = "yValue">
 				<option value = "1">Option 1</option>
-				<option value = "2">Option 2</option>
+				<option value = "2" selected = "selected">Option 2</option>
 				<option value = "3">Option 3</option>
 			</select>
-			<br><br>
-			<button type = "button" value = "Update Data"
-				onclick = "scatterPlot(testData,xValue.value,yValue.value); return false;">
+			<br>
+			<button type = "button" onclick = "scatterPlot(testData,xValue.value,yValue.value); return false;">
+                Update Data</button>
 		</form>
 
 
@@ -66,17 +70,16 @@
         	if (xValue > xMax) {
         		xMax = xValue*1.05;
         	}
-        	if (xValue < xMin) {
-        		xMin = xValue;
-        	}
+        	// if (xValue < xMin) {
+        	// 	xMin = xValue;
+        	// }
         	if (yValue > yMax) {
         		yMax = yValue*1.05;
         	}
-        	if (yValue < yMax) {
-        		yMin = yValue;
-        	}
+        	// if (yValue < yMax) {
+        	// 	yMin = yValue;
+        	// }
         })
-
 
         //set up scales
         xScale = d3.scale.linear().domain([0,xMax]).range([scatterPadding, scatterWidth - scatterPadding]);
@@ -90,25 +93,42 @@
         svg.append("g").attr("class", "axis").attr("transform", "translate(" + xScale(0) + ",0)").call(yAxis);
 
         //add graph and axis titles
-        svg.append("text").attr("x",100).attr("y",25).text("Test Graph");
+        svg.append("text").attr("x",scatterWidth/3).attr("y",25).text("Graph of " + yKey + " vs " + xKey);
         svg.append("text").attr("x",scatterWidth/3).attr("fill","#cccc").attr("y",scatterHeight-10)
-          .text("X Unit");
+          .text(xKey);
         svg.append("text").attr("x",10).attr("fill","#cccc").attr("y",scatterHeight/2-20)
-          .text("Y Unit");
+          .text(yKey);
 
         objects.forEach(function (data) {
-         	// console.log(data);
          	var pointName = data[0];
          	var xValue = data[xKey];
          	var yValue = data[yKey];
             
-            svg.append("circle").attr("cx",xScale(xValue))
-              .attr("fill","rgba(200,0,255,.4)").attr("cy",yScale(yValue))
-              .attr("r",5);
-        });
-      }
+            svg.append("circle")
+                .attr("cx",xScale(xValue))
+                .attr("cy",yScale(yValue))
+                .attr("r",5)
+                .attr("class", "point")
+                .attr("id", pointName);
 
-      scatterPlot(testData,1,2)
+            svg.append("text")
+                .attr("x",xScale(xValue-xMax*.05))
+                .attr("y",yScale(yValue+yMax*.05))
+                .attr("class", "pointLabel")
+                .attr("id", pointName)
+                .text(pointName);
+        });
+    }
+
+    scatterPlot(testData,1,2)
+
+    d3.selectAll(".point").on("click", function(point) {
+        this.className = "selectedPoint";
+    });
+
+    d3.selectAll(".selectedPoint").on("click", function(point) {
+        console.log("test");
+    });
 
 	</script>
 
