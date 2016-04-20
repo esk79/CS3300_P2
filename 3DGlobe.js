@@ -8,8 +8,8 @@ d3.select(window)
 var width = 1440,
     height = 750;
 
-numCountries = 100 //unknown so far
-var colorScale = d3.scale.linear().domain([0, numCountries]).range(['beige', 'red']); //just two random colors for now
+var colorScale = d3.scale.linear().domain([.3, 1]).range(['#8b0000','#004499']); //just two random colors for now
+var radiusScale = d3.scale.sqrt().domain([ 0, 1 ]).range([ 0, 20 ]);
 
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
@@ -27,20 +27,8 @@ var path = d3.geo.path().projection(proj).pointRadius(function (d) {
     }
 });
 
-var links = [{
-        coord: [-122.3321, 47.6062], //Seattle
-        color: colorScale(50), //just a stub color
-        radius: 15
-    }, {
-        coord: [-130.3321, 50.6062],
-        color: colorScale(10),
-        radius: 20
-    }, {
-        coord: [8.7832, 34.5085],
-        color: colorScale(78),
-        radius: 25
-    }],
-    points = [];
+var links = [],
+    points = []
 
 var svg = d3.select("body").append("svg")
     .attr("width", width)
@@ -49,11 +37,16 @@ var svg = d3.select("body").append("svg")
 
 queue()
     .defer(d3.json, "world-110m.json")
+    .defer(d3.csv, "data.csv")
     .await(ready);
 
-function ready(error, world) {
+//for debug
+var countryStats;
+function ready(error, world, data) {
     if (error)   //If error is not null, something went wrong.
         console.log(error) //Log the error.
+
+    countryStats = data;
 
     var ocean_fill = svg.append("defs").append("radialGradient")
         .attr("id", "ocean_fill")
@@ -126,6 +119,9 @@ function ready(error, world) {
         .style("fill", "url(#globe_shading)");
 
 
+    list = createList("HDI")
+    createTable(list, ["Country", "HDI"], table)
+
     // build geoJSON features from links array for points
     links.forEach(function (e, i, a) {
         var point = {
@@ -147,7 +143,9 @@ function ready(error, world) {
         .selectAll("text").data(points)
         .enter().append("path")
         .attr("class", "point")
-        .style("fill", function (d) { return d.properties.color })
+        .style("fill", function (d) {
+            return d.properties.color
+        })
         .attr("d", path);
 
 }
@@ -182,3 +180,67 @@ function mouseup() {
         m0 = null;
     }
 }
+
+//http://stackoverflow.com/questions/2466356/javascript-object-list-sorting-by-object-property
+function sortObj(list, key, increase) {
+    function compare(a, b) {
+        a = a[key];
+        b = b[key];
+        var type = (typeof(a) === 'string' ||
+        typeof(b) === 'string') ? 'string' : 'number';
+        var result;
+        if (type === 'string') result = a.localeCompare(b);
+        else result = a - b;
+        return result;
+    }
+    return increase ? list.sort(compare).reverse() : list.sort(compare)
+}
+
+increaseList = ["HDI"]
+function createList(clicked){
+    increase = (increaseList.indexOf(clicked) >= 0)
+    sorted = sortObj(countryStats, clicked, increase)
+    sorted.forEach(function(d){
+        links.push({
+            coord: [d.Long, d.Lat],
+            color: colorScale(d.HDI),
+            radius: radiusScale(d.HDI)
+        })
+    })
+    return sorted
+}
+
+function createTable(data, columns, problem) {
+    var table = d3.select(problem).append("table").attr("class","container")
+
+    var thead = table.append("thead").append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+        .text(function (column) {
+            return column;
+        });
+
+    var tbody = table.append("tbody");
+
+    var rows = tbody.selectAll("tr")
+        .data(data)
+        .enter()
+        .append("tr");
+
+    rows.selectAll("td")
+        .data(function (row) {
+            return columns.map(function (column) {
+                return {column: column, value: row[column]};
+            });
+        })
+        .enter()
+        .append("td")
+        .html(function (d) {
+            return d.value;
+        });
+
+    return table;
+}
+
