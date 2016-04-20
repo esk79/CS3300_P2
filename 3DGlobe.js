@@ -128,7 +128,8 @@ function ready(error, world, data) {
             "type": "Feature",
             "properties": {
                 "radius": e.radius,
-                "color": e.color
+                "color": e.color,
+                "country": e.country
             },
             "geometry": {
                 "type": "Point",
@@ -145,6 +146,9 @@ function ready(error, world, data) {
         .attr("class", "point")
         .style("fill", function (d) {
             return d.properties.color
+        })
+        .on("click", function (d){ // this doesn't appear to work
+            console.log(d.properties.country);
         })
         .attr("d", path);
 
@@ -207,7 +211,8 @@ function createList(clicked){
         links.push({
             coord: [d.Long, d.Lat],
             color: colorScale(d[clicked]),
-            radius: radiusScale(d[clicked])
+            radius: radiusScale(d[clicked]),
+            country: d.Country
         })
     })
     return sorted
