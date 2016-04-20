@@ -5,6 +5,15 @@
         background-color: #222222;
     }
 
+    #header{
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:85px;
+        background-color: #FB667A;
+    }
+
     .land {
         fill: #999;
         stroke-opacity: 1;
@@ -26,10 +35,18 @@
     }
 
     svg {
-        margin-top: 10%;
-        margin-left: auto;
-        margin-right: auto;
+        margin-top: 8%;
+        /*margin-left: auto;*/
+        /*margin-right: auto;*/
+        float:left;
         display: block;
+    }
+    #table{
+        overflow-y: scroll;
+        height:700px;
+        width: 550px;
+        margin-top: 9%;
+        float:left
     }
 
 </style>
@@ -40,6 +57,6 @@
 <script src="https://d3js.org/topojson.v0.min.js"></script>
 <script src="3DGlobe.js"></script>
 <link rel="stylesheet" type="text/css" href="table.css">
-
+<div id="header"></div>
 <div id="table"></div>
 </body>

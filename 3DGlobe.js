@@ -5,7 +5,7 @@ d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
 
-var width = 1440,
+var width = 1100,
     height = 750;
 
 var colorScale = d3.scale.linear().domain([0, 10]).range(['#8b0000', '#004499']) //just two random colors for now
@@ -89,8 +89,8 @@ function ready(error, world, data) {
         .attr("stop-opacity", "0")
 
     svg.append("ellipse")
-        .attr("cx", 500).attr("cy", 675)
-        .attr("rx", proj.scale() * 1.3)
+        .attr("cx", 400).attr("cy", 675)
+        .attr("rx", proj.scale() * 1)
         .attr("ry", proj.scale() * .25)
         .attr("class", "noclicks")
         .style("fill", "url(#drop_shadow)");
@@ -118,7 +118,7 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    var clicked = "GDP/capita"
+    var clicked = "HDI"
     list = createList(clicked)
     createTable(list, ["Country", clicked], table)
 
