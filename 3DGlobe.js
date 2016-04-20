@@ -203,8 +203,8 @@ function createList(clicked){
     sorted.forEach(function(d){
         links.push({
             coord: [d.Long, d.Lat],
-            color: colorScale(d.HDI),
-            radius: radiusScale(d.HDI)
+            color: colorScale(d[clicked]),
+            radius: radiusScale(d[clicked])
         })
     })
     return sorted
