@@ -139,6 +139,10 @@ function ready(error, world, data) {
         points.push(point)
     })
 
+    var popup = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+
     // plot points on map from geoJSON objects
     svg.append("g").attr("class", "points")
         .selectAll("text").data(points)
@@ -148,7 +152,13 @@ function ready(error, world, data) {
             return d.properties.color
         })
         .on("click", function (d) { // this doesn't appear to work
-            console.log(d.properties.country);
+            popup.transition()
+                .duration(200)
+                .style("opacity", .9)
+            popup.html(d.properties.country)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px")
+                .attr("d", path);
         })
         .attr("d", path);
 
