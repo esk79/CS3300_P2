@@ -8,8 +8,8 @@ d3.select(window)
 var width = 1440,
     height = 750;
 
-var colorScale = d3.scale.linear().domain([.3, 1]).range(['#8b0000','#004499']); //just two random colors for now
-var radiusScale = d3.scale.sqrt().domain([ 0, 1 ]).range([ 0, 20 ]);
+var colorScale = d3.scale.linear().domain([0, 10]).range(['#8b0000','#004499']) //just two random colors for now
+var radiusScale = d3.scale.sqrt().domain([0, 10]).range([0,20])
 
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
@@ -118,9 +118,9 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-
-    list = createList("HDI")
-    createTable(list, ["Country", "HDI"], table)
+    var clicked = "HDI"
+    list = createList(clicked)
+    createTable(list, ["Country", clicked], table)
 
     // build geoJSON features from links array for points
     links.forEach(function (e, i, a) {
@@ -193,7 +193,10 @@ function sortObj(list, key, increase) {
         else result = a - b;
         return result;
     }
-    return increase ? list.sort(compare).reverse() : list.sort(compare)
+    var sorted = list.sort(compare)
+    colorScale.domain([sorted[0][key], sorted[sorted.length - 1][key]])
+    radiusScale.domain([sorted[0][key], sorted[sorted.length - 1][key]])
+    return increase ? sorted.reverse() : sorted
 }
 
 increaseList = ["HDI"]
