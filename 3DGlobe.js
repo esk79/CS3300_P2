@@ -118,7 +118,7 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    var clicked = "Inequality in education"
+    var clicked = "Well-Being"
     list = createList(clicked)
     createTable(list, ["Country", clicked], table1, table)
 
@@ -195,27 +195,35 @@ function mouseup() {
     }
 }
 
+var reverseList = ["Inequality in education"]
 //http://stackoverflow.com/questions/2466356/javascript-object-list-sorting-by-object-property
-function sortObj(list, key, increase) {
+function sortObj(list, clicked, increase) {
+    var reverse = (reverseList.indexOf(clicked) >= 0)
     function compare(a, b) {
-        a = parseFloat(a[key]);
-        b = parseFloat(b[key]);
+        a = parseFloat(a[clicked]);
+        b = parseFloat(b[clicked]);
         if (a < b) return -1;
         if (a > b) return 1;
         return 0;
     }
 
     var sorted = list.sort(compare).filter(function (d) {
-        return d[key] != ".."
+        return d[clicked] != ".."
     })
-    colorScale.domain([sorted[0][key], sorted[sorted.length - 1][key]])
-    radiusScale.domain([sorted[0][key], sorted[sorted.length - 1][key]])
+    if (!reverse){
+        colorScale.domain([sorted[0][clicked], sorted[sorted.length - 1][clicked]])
+        radiusScale.domain([sorted[0][clicked], sorted[sorted.length - 1][clicked]])
+    }else{
+        colorScale.domain([sorted[sorted.length - 1][clicked], sorted[0][clicked]])
+        radiusScale.domain([ sorted[sorted.length - 1][clicked], sorted[0][clicked]])
+    }
+
     return increase ? sorted.reverse() : sorted
 }
 
-increaseList = ["HDI", "GDP/capita", "Life Expectancy"]
+increaseList = ["HDI", "GDP/capita", "Life Expectancy", "Well-Being"]
 function createList(clicked) {
-    increase = (increaseList.indexOf(clicked) >= 0)
+    var increase = (increaseList.indexOf(clicked) >= 0)
     sorted = sortObj(countryStats, clicked, increase)
     sorted.forEach(function (d) {
         if (d[clicked] != "..") {
