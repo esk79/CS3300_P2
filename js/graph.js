@@ -3,6 +3,8 @@ var scatterWidth = 600;
 var scatterPadding = 75;
 var allPoints = []
 var selectedPoints = [];
+var headers = [];
+
 
 var testData = [["Point 1",1,1,1],["Point 2",2,2,2],["Point 3",3,3,5],["Point 4",4,5,20],["Point 5",5,3,4],
     ["Point 6",10,2,29],["Point 7",8,10,3],["Point 8",3,7,5],["Point 9",1,10,13],["Point 10",13,10,15]]
@@ -116,4 +118,4 @@ function replaceClassById (id, oldClass, newClass) {
     d3.select("#" + id).classed(oldClass, false)
 }
 
-
+console.log(countryStats);
