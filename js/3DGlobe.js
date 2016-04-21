@@ -11,6 +11,8 @@ var width = 1100,
 var colorScale = d3.scale.linear().domain([0, 10]).range(['#8b0000', '#004499']) //just two random colors for now
 var radiusScale = d3.scale.sqrt().domain([0, 10]).range([0, 20])
 
+var f = d3.format(".3f")
+
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
@@ -36,8 +38,8 @@ var svg = d3.select("body").append("svg")
     .on("mousedown", mousedown);
 
 queue()
-    .defer(d3.json, "world-110m.json")
-    .defer(d3.csv, "data.csv")
+    .defer(d3.json, "data/world-110m.json")
+    .defer(d3.csv, "data/data.csv")
     .await(ready);
 
 //for debug
@@ -118,9 +120,7 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    var clicked = "Well-Being"
-    list = createList(clicked)
-    createTable(list, ["Country", clicked], table1, table)
+    clicked("Well-Being")
 
     // build geoJSON features from links array for points
     links.forEach(function (e, i, a) {
@@ -268,9 +268,8 @@ function createTable(data, columns, divCol, divData) {
         .append("td")
         .html(function (d, i) {
             if (d.column != "Country"){
-                console.log("value: " + d.value)
                 index = data.map(function(e) {return e[columns[1]]; }).indexOf(d.value) + 2
-                return d.value
+                return f(d.value)
             }
             if (d.column == "Country")
                 return index + ") " + d.value
@@ -280,3 +279,8 @@ function createTable(data, columns, divCol, divData) {
     return table;
 }
 
+function clicked(clicked){
+    list = createList(clicked)
+    createTable(list, ["Country", clicked], table1, table)
+    refresh()
+}
