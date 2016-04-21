@@ -46,6 +46,7 @@
 	var scatterHeight = 400;
 	var scatterWidth = 600;
 	var scatterPadding = 75;
+    var selectedPoints = [];
 
 	var testData = [["Point 1",1,1,1],["Point 2",2,2,2],["Point 3",3,3,5],["Point 4",4,5,20],["Point 5",5,3,4],["Point 6",10,2,29],["Point 7",8,10,3],["Point 8",3,7,5],["Point 9",1,10,13],["Point 10",13,10,15]]
 
@@ -103,19 +104,20 @@
          	var pointName = data[0];
          	var xValue = data[xKey];
          	var yValue = data[yKey];
+            var pointID = pointName.replace(" ","");
             
             svg.append("circle")
                 .attr("cx",xScale(xValue))
                 .attr("cy",yScale(yValue))
                 .attr("r",5)
                 .attr("class", "point")
-                .attr("id", "point-" + pointName);
+                .attr("id",  pointID);
 
             svg.append("text")
                 .attr("x",xScale(xValue-xMax*.05))
                 .attr("y",yScale(yValue+yMax*.05))
                 .attr("class", "pointLabel")
-                .attr("id", "label-" + pointName)
+                .attr("id", "label" + pointID)
                 .text(pointName);
         });
     }
@@ -123,13 +125,36 @@
     scatterPlot(testData,1,2)
 
     d3.selectAll(".point").on("click", function(point) {
-        console.log(this.id);
-        document.getElementById(this.id).className = "selectedPoint";
+        if (d3.select("#" + this.id).classed("selectedPoint")) {
+            replaceClassById(this.id, "selectedPoint","point");
+            replaceClassById("label"+this.id,"selectedLabel","pointLabel");
+            selectedPoints.splice(selectedPoints.indexOf(this.id),1);
+        }
+
+        else {
+            if(selectedPoints.length < 3) {
+                replaceClassById(this.id, "point","selectedPoint");
+                replaceClassById("label"+this.id,"pointLabel","selectedLabel");
+                selectedPoints.push(this.id);
+            }
+            // else {
+            //     var removePoint = selectedPoints[0];
+            //     replaceClassById(removePoint, "selectedPoint","point");
+            //     replaceClassById("label"+removePoint,"selectedLabel","pointLabel");
+            //     selectedPoints.splice(0,1);
+            //     replaceClassById(this.id, "point","selectedPoint");
+            //     replaceClassById("label"+this.id,"pointLabel","selectedLabel");
+            //     selectedPoints.push(this.id);
+            // }
+        }
+
+        // console.log(this);
     });
 
-    d3.selectAll(".selectedPoint").on("click", function(point) {
-        console.log("test");
-    });
+    function replaceClassById (id, oldClass, newClass) {
+        d3.select("#" + id).classed(newClass, true)
+        d3.select("#" + id).classed(oldClass, false)
+    }
 
 	</script>
 
