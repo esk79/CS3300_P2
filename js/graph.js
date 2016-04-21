@@ -1,9 +1,11 @@
 var scatterHeight = 400;
 var scatterWidth = 600;
 var scatterPadding = 75;
+var allPoints = []
 var selectedPoints = [];
 
-var testData = [["Point 1",1,1,1],["Point 2",2,2,2],["Point 3",3,3,5],["Point 4",4,5,20],["Point 5",5,3,4],["Point 6",10,2,29],["Point 7",8,10,3],["Point 8",3,7,5],["Point 9",1,10,13],["Point 10",13,10,15]]
+var testData = [["Point 1",1,1,1],["Point 2",2,2,2],["Point 3",3,3,5],["Point 4",4,5,20],["Point 5",5,3,4],
+    ["Point 6",10,2,29],["Point 7",8,10,3],["Point 8",3,7,5],["Point 9",1,10,13],["Point 10",13,10,15]]
 
 function scatterPlot (objects, xKey, yKey) {
     if(d3.select("#graph>svg").length > 0) {
@@ -66,7 +68,7 @@ function scatterPlot (objects, xKey, yKey) {
             .attr("cx",xScale(xValue))
             .attr("cy",yScale(yValue))
             .attr("r",5)
-            .attr("class", "point")
+            .attr("class", "graphPoint")
             .attr("id",  pointID);
 
         svg.append("text")
@@ -76,29 +78,31 @@ function scatterPlot (objects, xKey, yKey) {
             .attr("id", "label" + pointID)
             .text(pointName);
     });
+
+    allPoints = d3.selectAll(".graphPoint");
 }
 
 scatterPlot(testData,1,2)
 
-d3.selectAll(".point").on("click", function(point) {
+allPoints.on("click", function(point) {
     if (d3.select("#" + this.id).classed("selectedPoint")) {
-        replaceClassById(this.id, "selectedPoint","point");
+        replaceClassById(this.id, "selectedPoint","graphPoint");
         replaceClassById("label"+this.id,"selectedLabel","pointLabel");
         selectedPoints.splice(selectedPoints.indexOf(this.id),1);
     }
 
     else {
         if(selectedPoints.length < 3) {
-            replaceClassById(this.id, "point","selectedPoint");
+            replaceClassById(this.id, "graphPoint","selectedPoint");
             replaceClassById("label"+this.id,"pointLabel","selectedLabel");
             selectedPoints.push(this.id);
         }
         // else {
         //     var removePoint = selectedPoints[0];
-        //     replaceClassById(removePoint, "selectedPoint","point");
+        //     replaceClassById(removePoint, "selectedPoint","graphPoint");
         //     replaceClassById("label"+removePoint,"selectedLabel","pointLabel");
         //     selectedPoints.splice(0,1);
-        //     replaceClassById(this.id, "point","selectedPoint");
+        //     replaceClassById(this.id, "graphPoint","selectedPoint");
         //     replaceClassById("label"+this.id,"pointLabel","selectedLabel");
         //     selectedPoints.push(this.id);
         // }
