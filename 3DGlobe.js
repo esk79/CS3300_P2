@@ -118,9 +118,9 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    var clicked = "HDI"
+    var clicked = "Inequality in education"
     list = createList(clicked)
-    createTable(list, ["Country", clicked], table)
+    createTable(list, ["Country", clicked], table1, table)
 
     // build geoJSON features from links array for points
     links.forEach(function (e, i, a) {
@@ -213,7 +213,7 @@ function sortObj(list, key, increase) {
     return increase ? sorted.reverse() : sorted
 }
 
-increaseList = ["HDI", "GDP/capita"]
+increaseList = ["HDI", "GDP/capita", "Life Expectancy"]
 function createList(clicked) {
     increase = (increaseList.indexOf(clicked) >= 0)
     sorted = sortObj(countryStats, clicked, increase)
@@ -230,9 +230,10 @@ function createList(clicked) {
     return sorted
 }
 
-function createTable(data, columns, problem) {
-    var table = d3.select(problem).append("table").attr("class", "container")
-
+function createTable(data, columns, divCol, divData) {
+    var index = 1
+    var table = d3.select(divData).append("table").attr("class", "container")
+    //var column = d3.select(divCol).append("table").attr("class", "container")
     var thead = table.append("thead").append("tr")
         .selectAll("th")
         .data(columns)
@@ -257,8 +258,15 @@ function createTable(data, columns, problem) {
         })
         .enter()
         .append("td")
-        .html(function (d) {
-            return d.value;
+        .html(function (d, i) {
+            if (d.column != "Country"){
+                console.log("value: " + d.value)
+                index = data.map(function(e) {return e[columns[1]]; }).indexOf(d.value) + 2
+                return d.value
+            }
+            if (d.column == "Country")
+                return index + ") " + d.value
+
         });
 
     return table;
