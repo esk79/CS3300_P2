@@ -109,13 +109,13 @@
                 .attr("cy",yScale(yValue))
                 .attr("r",5)
                 .attr("class", "point")
-                .attr("id", pointName);
+                .attr("id", "point-" + pointName);
 
             svg.append("text")
                 .attr("x",xScale(xValue-xMax*.05))
                 .attr("y",yScale(yValue+yMax*.05))
                 .attr("class", "pointLabel")
-                .attr("id", pointName)
+                .attr("id", "label-" + pointName)
                 .text(pointName);
         });
     }
@@ -123,7 +123,8 @@
     scatterPlot(testData,1,2)
 
     d3.selectAll(".point").on("click", function(point) {
-        this.className = "selectedPoint";
+        console.log(this.id);
+        document.getElementById(this.id).className = "selectedPoint";
     });
 
     d3.selectAll(".selectedPoint").on("click", function(point) {
