@@ -1,6 +1,7 @@
 /**
  * Created by EvanKing on 4/18/16.
  */
+
 d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
@@ -39,16 +40,11 @@ var svg = d3.select("body").append("svg")
 
 queue()
     .defer(d3.json, "data/world-110m.json")
-    .defer(d3.csv, "data/data.csv")
     .await(ready);
 
-//for debug
-var countryStats;
-function ready(error, world, data) {
+function ready(error, world) {
     if (error)   //If error is not null, something went wrong.
         console.log(error) //Log the error.
-
-    countryStats = data;
 
     var ocean_fill = svg.append("defs").append("radialGradient")
         .attr("id", "ocean_fill")
@@ -120,7 +116,7 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    clicked("Well-Being")
+    clicked("Gender Equality Rank")
 
     // build geoJSON features from links array for points
     links.forEach(function (e, i, a) {
@@ -195,7 +191,7 @@ function mouseup() {
     }
 }
 
-var reverseList = ["Inequality in education"]
+var reverseList = ["Inequality in education", "Gender Equality Rank"]
 //http://stackoverflow.com/questions/2466356/javascript-object-list-sorting-by-object-property
 function sortObj(list, clicked, increase) {
     var reverse = (reverseList.indexOf(clicked) >= 0)
