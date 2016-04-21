@@ -1,0 +1,97 @@
+<html>
+<head>
+<!-- Load the d3 library. -->
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/queue.v1.min.js"></script>
+<script src="https://d3js.org/topojson.v0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style/table.css">
+<link rel="stylesheet" type="text/css" href="style/buttons.css">
+
+<style>
+	/*body { font-family: "Futura"; } div { margin: 30px; }*/
+    /*svg { background-color: #f0f0f0; }*/
+    .fullBar { fill: #ccc; }
+    .premiseBar { fill:rgb(255,165,0); }
+    .axis path { fill: none; stroke: #aaa; }
+    .axis line { stroke: #FB667A; }
+    .axis text { fill: #FB667A; font-size: .7em; }
+    .point {fill: rgba(200,0,255,.4);}
+    .selectedPoint {fill: rgba(200,255,0,.6);}
+    .pointLabel {display:none;}
+    .selectedLabel {display:block; font-size:.7em; fill:#FB667A;}
+    .axisTitle {fill:#FB667A;}
+
+</style>
+</head>
+<body>
+
+    <div id="header"></div>
+
+    <!--GABE'S HTML STARTS HERE-->
+
+    <div id = "graph">
+        <form id = "selectData">
+            X-Value: 
+            <select id = "xValue" name = "xValue">
+                <option value = "1" selected = "selected">Option 1</option>
+                <option value = "2">Option 2</option>
+                <option value = "3">Option 3</option>
+            </select>
+            <br>
+            Y-Value:
+            <select id = "yValue" name = "yValue">
+                <option value = "1">Option 1</option>
+                <option value = "2" selected = "selected">Option 2</option>
+                <option value = "3">Option 3</option>
+            </select>
+            <br>
+            <button type = "button" onclick = "scatterPlot(testData,xValue.value,yValue.value); return false;">
+                Update Data</button>
+        </form>
+
+<!--GABE'S HTML ENDS HERE-->
+
+    </div>
+<div class="buttons">
+    <ul>
+        <li>
+            <input type="radio" id="f-option" name="selector" onclick="clicked('Life Expectancy')">
+            <label for="f-option">Life Expectancy</label>
+
+            <div class="check"></div>
+        </li>
+
+        <li>
+            <input type="radio" id="s-option" name="selector" onclick="clicked('Well-Being')">
+            <label for="s-option">Well-Being</label>
+
+            <div class="check"><div class="inside"></div></div>
+        </li>
+
+        <li>
+            <input type="radio" id="t-option" name="selector" onclick="clicked('Foot-print')">
+            <label for="t-option">Foot-print</label>
+
+            <div class="check"><div class="inside"></div></div>
+        </li>
+        <li>
+            <input type="radio" id="x-option" name="selector" onclick="clicked('GDP/capita')">
+            <label for="x-option">GDP/capita</label>
+
+            <div class="check"><div class="inside"></div></div>
+        </li>
+    </ul>
+</div>
+
+</div>
+<div id="table1"></div>
+<div id="table"></div>
+
+
+
+
+    <script src="js/3DGlobe.js"></script>
+    <script src = "js/graph.js"></script>
+
+</body>
+</html>
