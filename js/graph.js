@@ -1,3 +1,24 @@
+queue()
+    .defer(d3.csv, "data/data.csv")
+    .await(ready);
+
+var countryStats;
+function ready(error, data) {
+    if (error)   //If error is not null, something went wrong.
+        console.log(error) //Log the error.
+
+// console.log(data);
+    countryStats = data;
+    
+    // console.log(countryStats);
+
+    headers = Object.keys(countryStats[0]);
+    scatterPlot(countryStats,headers[3],headers[4]);
+    assignHeaders("xValue",headers,"option");
+    assignHeaders("yValue",headers,"option");
+}
+
+
 var scatterHeight = 400;
 var scatterWidth = 600;
 var scatterPadding = 75;
@@ -27,13 +48,13 @@ function scatterPlot (objects, xKey, yKey) {
     	var xValue = data[xKey];
     	var yValue = data[yKey];
 
-    	if (xValue > xMax) {
+    	if (xValue > xMax && !isNaN(xValue)) {
     		xMax = xValue*1.05;
     	}
     	// if (xValue < xMin) {
     	// 	xMin = xValue;
     	// }
-    	if (yValue > yMax) {
+    	if (yValue > yMax && !isNaN(yValue)) {
     		yMax = yValue*1.05;
     	}
     	// if (yValue < yMax) {
@@ -61,32 +82,40 @@ function scatterPlot (objects, xKey, yKey) {
       .attr("class","axisTitle").text(yKey);
 
     objects.forEach(function (data) {
-     	var pointName = data[0];
-     	var xValue = data[xKey];
-     	var yValue = data[yKey];
-        var pointID = pointName.replace(" ","");
-        
-        svg.append("circle")
-            .attr("cx",xScale(xValue))
-            .attr("cy",yScale(yValue))
-            .attr("r",5)
-            .attr("class", "graphPoint")
-            .attr("id",  pointID);
+        // console.log(data);
+        // console.log(xKey);
+        // console.log(yKey);
 
-        svg.append("text")
-            .attr("x",xScale(xValue-xMax*.05))
-            .attr("y",yScale(yValue+yMax*.05))
-            .attr("class", "pointLabel")
-            .attr("id", "label" + pointID)
-            .text(pointName);
+        var pointName = data["Country"];
+     	var xValue = Number(data[xKey]);
+     	var yValue = Number(data[yKey]);
+        var pointID = pointName;
+
+        if(!isNaN(xValue) && !isNaN(yValue)) {
+        
+            if (pointName.search(" ")) {
+                pointID = pointName.replace(" ","");
+            }
+            
+            svg.append("circle")
+                .attr("cx",xScale(xValue))
+                .attr("cy",yScale(yValue))
+                .attr("r",5)
+                .attr("class", "graphPoint")
+                .attr("id",  pointID);
+
+            svg.append("text")
+                .attr("x",xScale(xValue-xMax*.05))
+                .attr("y",yScale(yValue+yMax*.05))
+                .attr("class", "pointLabel")
+                .attr("id", "label" + pointID)
+                .text(pointName);
+        };
     });
 
-    allPoints = d3.selectAll(".graphPoint");
 }
 
-scatterPlot(testData,1,2)
-
-allPoints.on("click", function(point) {
+d3.selectAll(".graphPoint").on("click", function(point) {
     if (d3.select("#" + this.id).classed("selectedPoint")) {
         replaceClassById(this.id, "selectedPoint","graphPoint");
         replaceClassById("label"+this.id,"selectedLabel","pointLabel");
@@ -118,4 +147,14 @@ function replaceClassById (id, oldClass, newClass) {
     d3.select("#" + id).classed(oldClass, false)
 }
 
-console.log(countryStats);
+function assignHeaders (htmlId, array, nodeType) {
+    var parentNode = document.getElementById(htmlId);
+
+    array.forEach(function (header) {
+        var node = document.createElement(nodeType);
+        var text = document.createTextNode(header);
+        node.appendChild(text);
+        parentNode.appendChild(node);
+    })
+        
+}

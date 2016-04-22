@@ -10,5 +10,9 @@ function ready(error, data) {
     if (error)   //If error is not null, something went wrong.
         console.log(error) //Log the error.
 
+// console.log(data);
     countryStats = data;
+    console.log(countryStats);
 }
+
+console.log("outside" + countryStats)
