@@ -13,35 +13,34 @@ function ready(error, data) {
     // console.log(countryStats);
 
     headers = Object.keys(countryStats[0]);
-    scatterPlot(countryStats,headers[3],headers[4]);
-    assignHeaders("xValue",headers,"option");
-    assignHeaders("yValue",headers,"option");
+    scatterPlot(countryStats,headers[2],headers[3]);
+    assignHeaders("xValue",headers,"option",2);
+    assignHeaders("yValue",headers,"option",3);
+    getPoints();
 }
 
 
-var scatterHeight = 400;
-var scatterWidth = 600;
+var scatterHeight = 500;
+var scatterWidth = 850;
 var scatterPadding = 75;
 var allPoints = []
 var selectedPoints = [];
 var headers = [];
-
-
-var testData = [["Point 1",1,1,1],["Point 2",2,2,2],["Point 3",3,3,5],["Point 4",4,5,20],["Point 5",5,3,4],
-    ["Point 6",10,2,29],["Point 7",8,10,3],["Point 8",3,7,5],["Point 9",1,10,13],["Point 10",13,10,15]]
+var allPointsIds = [];
 
 function scatterPlot (objects, xKey, yKey) {
-    if(d3.select("#graph>svg").length > 0) {
-    	d3.select("#graph>svg").remove();
-    }
+    // if(d3.select("#graph>svg").length > 0) {
+    // 	d3.select("#graph>svg").remove();
+    // }
 
-    var svg = d3.select("#graph").append("svg")
-      .attr("height", scatterHeight).attr("width", scatterWidth);
+    if(d3.selectAll("#graph>svg")[0].length < 1) {
+        var svg = d3.select("#graph").append("svg")
+          .attr("height", scatterHeight).attr("width", scatterWidth);
+    }
+    else svg = d3.select("#graph>svg");
 
     var xMax = 0;
-    var xMin = 0;
     var yMax = 0;
-    var yMin = 0;
 
     //max and min x and y values
     objects.forEach(function (data) {
@@ -51,15 +50,9 @@ function scatterPlot (objects, xKey, yKey) {
     	if (xValue > xMax && !isNaN(xValue)) {
     		xMax = xValue*1.05;
     	}
-    	// if (xValue < xMin) {
-    	// 	xMin = xValue;
-    	// }
     	if (yValue > yMax && !isNaN(yValue)) {
     		yMax = yValue*1.05;
     	}
-    	// if (yValue < yMax) {
-    	// 	yMin = yValue;
-    	// }
     })
 
     //set up scales
@@ -67,6 +60,8 @@ function scatterPlot (objects, xKey, yKey) {
     yScale = d3.scale.linear().domain([0,yMax]).range([scatterHeight - scatterPadding,scatterPadding]);
 
     //add axis
+    
+    d3.selectAll(".axis").remove();
     var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
     svg.append("g").attr("class", "axis").attr("transform", "translate(0," + yScale(0) + ")").call(xAxis);
 
@@ -74,12 +69,13 @@ function scatterPlot (objects, xKey, yKey) {
     svg.append("g").attr("class", "axis").attr("transform", "translate(" + xScale(0) + ",0)").call(yAxis);
 
     //add graph and axis titles
+    d3.selectAll(".axisTitle").remove();
     svg.append("text").attr("x",scatterWidth/3).attr("y",25).attr("class","axisTitle").
     text("Graph of " + yKey + " vs " + xKey);
-    svg.append("text").attr("x",scatterWidth/3).attr("fill","#cccc").attr("y",scatterHeight-10)
+    svg.append("text").attr("x",scatterWidth/2.3).attr("fill","#cccc").attr("y",scatterHeight-10)
       .attr("class","axisTitle").text(xKey);
-    svg.append("text").attr("x",10).attr("fill","#cccc").attr("y",scatterHeight/2-20)
-      .attr("class","axisTitle").text(yKey);
+    svg.append("text").attr("x",40).attr("y",scatterHeight/2+20).attr("transform","rotate(270,40,"+(scatterHeight/2+20)+")")
+        .text(yKey).attr("class", "axisTitle");
 
     objects.forEach(function (data) {
         // console.log(data);
@@ -91,66 +87,96 @@ function scatterPlot (objects, xKey, yKey) {
      	var yValue = Number(data[yKey]);
         var pointID = pointName;
 
-        if(!isNaN(xValue) && !isNaN(yValue)) {
-        
-            if (pointName.search(" ")) {
-                pointID = pointName.replace(" ","");
-            }
-            
-            svg.append("circle")
-                .attr("cx",xScale(xValue))
-                .attr("cy",yScale(yValue))
-                .attr("r",5)
-                .attr("class", "graphPoint")
-                .attr("id",  pointID);
+        if (pointName.search(" ")) {
+            pointID = pointName.replace(/[\s\'\.\,]/g,"");
+        }
 
-            svg.append("text")
-                .attr("x",xScale(xValue-xMax*.05))
-                .attr("y",yScale(yValue+yMax*.05))
-                .attr("class", "pointLabel")
-                .attr("id", "label" + pointID)
-                .text(pointName);
-        };
+        if(!isNaN(xValue) && !isNaN(yValue)) {
+            
+            if(allPointsIds.indexOf(pointID) > -1) {
+                var currentPoint = document.getElementById(pointID);
+                var currentLabel = document.getElementById("label" + pointID);
+
+                currentPoint.cx.baseVal.value = xScale(xValue);
+                currentPoint.cy.baseVal.value = yScale(yValue);
+
+                currentLabel.x.baseVal[0].value = xScale(xValue-xMax*.05);
+                currentLabel.y.baseVal[0].value = yScale(yValue+yMax*.05);
+            }
+            else {
+                svg.append("circle")
+                    .attr("cx",xScale(xValue))
+                    .attr("cy",yScale(yValue))
+                    .attr("r",5)
+                    .attr("class", "graphPoint")
+                    .attr("id",  pointID);
+
+                svg.append("text")
+                    .attr("x",xScale(xValue-xMax*.05))
+                    .attr("y",yScale(yValue+yMax*.05))
+                    .attr("class", "pointLabel")
+                    .attr("id", "label" + pointID)
+                    .text(pointName);
+            }
+        }
+        else {
+            d3.select("#" + pointID).remove();
+            d3.select("#label" + pointID).remove();
+            // console.log("removed: " + pointID);
+        }
     });
 
+    allPoints = d3.selectAll(".graphPoint");
+    d3.selectAll(".selectedPoint")[0].forEach(function (point) {allPoints[0].push(point)});
+    console.log(allPoints);
+
+    allPointsIds = [];
+    allPoints[0].forEach(function (point) {
+        // console.log(point);
+        allPointsIds.push(point.id);
+    });
+    getPoints();
+
+    // console.log(allPointsIds);
 }
 
-d3.selectAll(".graphPoint").on("click", function(point) {
-    if (d3.select("#" + this.id).classed("selectedPoint")) {
-        replaceClassById(this.id, "selectedPoint","graphPoint");
-        replaceClassById("label"+this.id,"selectedLabel","pointLabel");
-        selectedPoints.splice(selectedPoints.indexOf(this.id),1);
-    }
-
-    else {
-        if(selectedPoints.length < 3) {
-            replaceClassById(this.id, "graphPoint","selectedPoint");
-            replaceClassById("label"+this.id,"pointLabel","selectedLabel");
-            selectedPoints.push(this.id);
+function getPoints () {
+    allPoints.on("click", function(point) {
+        if (d3.select("#" + this.id).classed("selectedPoint")) {
+            replaceClassById(this.id, "selectedPoint","graphPoint");
+            replaceClassById("label"+this.id,"selectedLabel","pointLabel");
+            selectedPoints.splice(selectedPoints.indexOf(this.id),1);
         }
-        // else {
-        //     var removePoint = selectedPoints[0];
-        //     replaceClassById(removePoint, "selectedPoint","graphPoint");
-        //     replaceClassById("label"+removePoint,"selectedLabel","pointLabel");
-        //     selectedPoints.splice(0,1);
-        //     replaceClassById(this.id, "graphPoint","selectedPoint");
-        //     replaceClassById("label"+this.id,"pointLabel","selectedLabel");
-        //     selectedPoints.push(this.id);
-        // }
-    }
 
-    // console.log(this);
-});
+        else {
+            if(selectedPoints.length < 3) {
+                replaceClassById(this.id, "graphPoint","selectedPoint");
+                replaceClassById("label"+this.id,"pointLabel","selectedLabel");
+                selectedPoints.push(this.id);
+            }
+            else {
+                var removePoint = selectedPoints[0];
+                replaceClassById(removePoint, "selectedPoint","graphPoint");
+                replaceClassById("label"+removePoint,"selectedLabel","pointLabel");
+                selectedPoints.splice(0,1);
+                replaceClassById(this.id, "graphPoint","selectedPoint");
+                replaceClassById("label"+this.id,"pointLabel","selectedLabel");
+                selectedPoints.push(this.id);
+            }
+        }
+    });
+}
 
 function replaceClassById (id, oldClass, newClass) {
     d3.select("#" + id).classed(newClass, true)
     d3.select("#" + id).classed(oldClass, false)
 }
 
-function assignHeaders (htmlId, array, nodeType) {
+function assignHeaders (htmlId, array, nodeType, selected) {
     var parentNode = document.getElementById(htmlId);
+    var graphHeaders = array.slice(2,11)
 
-    array.forEach(function (header) {
+    graphHeaders.forEach(function (header) {
         var node = document.createElement(nodeType);
         var text = document.createTextNode(header);
         node.appendChild(text);
