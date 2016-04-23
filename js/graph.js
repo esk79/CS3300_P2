@@ -175,6 +175,7 @@ function replaceClassById (id, oldClass, newClass) {
 function assignHeaders (htmlId, array, nodeType, selected) {
     var parentNode = document.getElementById(htmlId);
     var graphHeaders = array.slice(2,11)
+    console.log(array);
 
     graphHeaders.forEach(function (header) {
         var node = document.createElement(nodeType);
