@@ -74,7 +74,7 @@ function scatterPlot (objects, xKey, yKey) {
     text("Graph of " + yKey + " vs " + xKey);
     svg.append("text").attr("x",scatterWidth/2.3).attr("fill","#cccc").attr("y",scatterHeight-10)
       .attr("class","axisTitle").text(xKey);
-    svg.append("text").attr("x",40).attr("y",scatterHeight/2+20).attr("transform","rotate(270,40,"+(scatterHeight/2+20)+")")
+    svg.append("text").attr("x",20).attr("y",scatterHeight/2+20).attr("transform","rotate(270,20,"+(scatterHeight/2+20)+")")
         .text(yKey).attr("class", "axisTitle");
 
     objects.forEach(function (data) {
@@ -174,7 +174,7 @@ function replaceClassById (id, oldClass, newClass) {
 
 function assignHeaders (htmlId, array, nodeType, selected) {
     var parentNode = document.getElementById(htmlId);
-    var graphHeaders = array.slice(2,11)
+    var graphHeaders = array.slice(2,15)
     console.log(array);
 
     graphHeaders.forEach(function (header) {
