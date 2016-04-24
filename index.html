@@ -1,28 +1,17 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-    body {
-        background-color: #222222;
-    }
     div.tooltip {
         position: absolute;
         text-align: center;
         width: 60px;
         height: 40px;
         padding: 2px;
-        font: 12px sans-serif;
+        font: 12px 'Montserrat Light', sans-serif;;
         background: #1F2739;
         border: 0px;
         border-radius: 8px;
         pointer-events: none;
-    }
-    #header{
-        position:fixed;
-        top:0;
-        left:0;
-        width:100%;
-        height:85px;
-        background-color: #FB667A;
     }
 
     .land {
@@ -47,62 +36,132 @@
 
     svg {
         margin-top: 8%;
-        /*margin-left: auto;*/
-        /*margin-right: auto;*/
-        float:left;
+        position: absolute;
+        left: 12%;
         display: block;
     }
-    #table{
+
+    #table {
         overflow-y: scroll;
-        height:700px;
+        height: 430px;
         width: 550px;
-        margin-top: 9%;
-        float:left
+        margin-top: 25%;
+        float: right
     }
 
+
 </style>
+<header>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <script src="https://d3js.org/topojson.v0.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style/table.css">
+    <link rel="stylesheet" type="text/css" href="style/buttons.css">
+    <link rel="stylesheet" type="text/css" href="style/main.css">
+</header>
 <Title>3300 P2</Title>
 <body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://d3js.org/queue.v1.min.js"></script>
-<script src="https://d3js.org/topojson.v0.min.js"></script>
 <script src="js/3DGlobe.js"></script>
-<script src="js/data.js"></script>
-<link rel="stylesheet" type="text/css" href="style/table.css">
-<link rel="stylesheet" type="text/css" href="style/buttons.css">
 <div id="header"></div>
-<div class="buttons">
-    <ul>
-        <li>
-            <input type="radio" id="f-option" name="selector" onclick="clicked('Life Expectancy')">
-            <label for="f-option">Life Expectancy</label>
+<div id="hist">
+    <div>
+        <div class="buttons">
+            <ul>
+                <li>
+                    <input type="radio" id="f-option" name="selector" onclick="clicked('Life Expectancy')">
+                    <label for="f-option">Life Expectancy</label>
 
-            <div class="check"></div>
-        </li>
+                    <div class="check"></div>
+                </li>
+                <li>
+                    <input type="radio" id="s-option" name="selector" onclick="clicked('Well-Being')">
+                    <label for="s-option">Well-Being</label>
 
-        <li>
-            <input type="radio" id="s-option" name="selector" onclick="clicked('Well-Being')">
-            <label for="s-option">Well-Being</label>
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="t-option" name="selector" onclick="clicked('Foot-print')">
+                    <label for="t-option">Foot-print</label>
 
-            <div class="check"><div class="inside"></div></div>
-        </li>
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="x-option" name="selector" onclick="clicked('GDP/capita')">
+                    <label for="x-option">GDP/capita</label>
 
-        <li>
-            <input type="radio" id="t-option" name="selector" onclick="clicked('Foot-print')">
-            <label for="t-option">Foot-print</label>
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="q-option" name="selector" onclick="clicked('Governance Index')">
+                    <label for="q-option">Governance Index</label>
 
-            <div class="check"><div class="inside"></div></div>
-        </li>
-        <li>
-            <input type="radio" id="x-option" name="selector" onclick="clicked('GDP/capita')">
-            <label for="x-option">GDP/capita</label>
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="b-option" name="selector" onclick="clicked('Gender Equality Rank')">
+                    <label for="b-option">Gender Equality Rank</label>
 
-            <div class="check"><div class="inside"></div></div>
-        </li>
-    </ul>
-</div>
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="c-option" name="selector" onclick="clicked('Inequality in education')">
+                    <label for="c-option">Inequality in education</label>
 
-</div>
-<div id="table1"></div>
-<div id="table"></div>
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="e-option" name="selector" onclick="clicked('HDI')">
+                    <label for="e-option">HDI</label>
+
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="i-option" name="selector" onclick="clicked('Incarceration Rate')">
+                    <label for="i-option">Incarceration Rate</label>
+
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="g-option" name="selector" onclick="clicked('Suicide Rate')">
+                    <label for="g-option">Suicide Rate</label>
+
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="h-option" name="selector" onclick="clicked('Homocide Rate')">
+                    <label for="h-option">Homocide Rate</label>
+
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+                <li>
+                    <input type="radio" id="j-option" name="selector" onclick="clicked('Income Inequality')">
+                    <label for="j-option">Income Inequality</label>
+
+                    <div class="check">
+                        <div class="inside"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
 </body>
