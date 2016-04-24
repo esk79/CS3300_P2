@@ -2,11 +2,10 @@
 .buttons{
     display: block;
     position: absolute;
-    margin: auto;
     height: 200px;
-    width: 300px;
-    margin-top: 60%;
-    bottom: 0; left:0; right: 0; top:0;
+    width: 400px;
+    margin-top: 14%;
+    float: left;
     padding: 0;
 }
 
@@ -30,8 +29,7 @@ ul li{
     position: relative;
     float: left;
     width: 100%;
-    height: 100px;
-    border-bottom: 1px solid #111111;
+    height: 50px;
 }
 
 ul li input[type=radio]{
@@ -44,9 +42,9 @@ ul li label{
     position: relative;
     font-weight: 300;
     font-size: 1.35em;
-    padding: 25px 25px 25px 80px;
-    margin: 10px auto;
-    height: 30px;
+    padding: 30px 25px 2px 60px;
+    margin: 5px auto;
+    height: 15px;
     z-index: 9;
     cursor: pointer;
     -webkit-transition: all 0.25s linear;
@@ -60,10 +58,10 @@ ul li .check{
     display: block;
     position: absolute;
     border: 5px solid #AAAAAA;
-    border-radius: 100%;
-    height: 25px;
-    width: 25px;
-    top: 30px;
+    border-radius: 50%;
+    height: 15px;
+    width: 15px;
+    top: 35px;
     left: 20px;
     z-index: 5;
     transition: border .25s linear;
@@ -79,10 +77,10 @@ ul li .check::before {
     position: absolute;
     content: '';
     border-radius: 100%;
-    height: 15px;
-    width: 15px;
-    top: 5px;
-    left: 5px;
+    height: 10px;
+    width: 10px;
+    top: 3px;
+    left: 1.6px;
     margin: auto;
     transition: background 0.25s linear;
     -webkit-transition: background 0.25s linear;
