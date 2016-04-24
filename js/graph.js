@@ -100,8 +100,8 @@ function scatterPlot (objects, xKey, yKey) {
                 currentPoint.cx.baseVal.value = xScale(xValue);
                 currentPoint.cy.baseVal.value = yScale(yValue);
 
-                currentLabel.x.baseVal[0].value = xScale(xValue-xMax*.05);
-                currentLabel.y.baseVal[0].value = yScale(yValue+yMax*.05);
+                currentLabel.x.baseVal[0].value = xScale(xValue-xMax*.03);
+                currentLabel.y.baseVal[0].value = yScale(yValue+yMax*.03);
             }
             else {
                 svg.append("circle")
@@ -112,8 +112,8 @@ function scatterPlot (objects, xKey, yKey) {
                     .attr("id",  pointID);
 
                 svg.append("text")
-                    .attr("x",xScale(xValue-xMax*.05))
-                    .attr("y",yScale(yValue+yMax*.05))
+                    .attr("x",xScale(xValue-xMax*.03))
+                    .attr("y",yScale(yValue+yMax*.03))
                     .attr("class", "pointLabel")
                     .attr("id", "label" + pointID)
                     .text(pointName);
