@@ -44,13 +44,13 @@ var svg = d3.select("body").append("svg")
 
 var svgColor = d3.select("body").append("svg")
     .attr("class", "scale")
-    .attr("width", "315px")
+    .attr("width", "300px")
     .attr("height", "100px");
 
 var y = 40
 var r = 2;
 var e = .4
-for(x = 10; x < 300; x += e*45){
+for(x = 10; x < 250; x += e*45){
     svgColor.append("circle")
         .attr("cx", x)
         .attr("cy", y)
@@ -64,11 +64,13 @@ svgColor.append("text")
     .text("low")
     .attr("x", 0)
     .attr("y", 90)
+    .attr("fill", "#A7A1AE")
 
 svgColor.append("text")
     .text("high")
-    .attr("x", 250)
+    .attr("x", 200)
     .attr("y", 90)
+    .attr("fill", "#A7A1AE")
 
 queue()
     .defer(d3.json, "data/world-110m.json")
