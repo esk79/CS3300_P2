@@ -27,6 +27,7 @@ var allPoints = []
 var selectedPoints = [];
 var headers = [];
 var allPointsIds = [];
+var graphHeaders = [];
 
 function scatterPlot (objects, xKey, yKey) {
     // if(d3.select("#graph>svg").length > 0) {
@@ -132,12 +133,9 @@ function scatterPlot (objects, xKey, yKey) {
 
     allPointsIds = [];
     allPoints[0].forEach(function (point) {
-        // console.log(point);
         allPointsIds.push(point.id);
     });
     getPoints();
-
-    // console.log(allPointsIds);
 }
 
 function getPoints () {
@@ -174,14 +172,46 @@ function replaceClassById (id, oldClass, newClass) {
 
 function assignHeaders (htmlId, array, nodeType, selected) {
     var parentNode = document.getElementById(htmlId);
-    var graphHeaders = array.slice(2,15)
-    console.log(array);
+    graphHeaders = array.slice(2,15)
 
     graphHeaders.forEach(function (header) {
         var node = document.createElement(nodeType);
         var text = document.createTextNode(header);
         node.appendChild(text);
         parentNode.appendChild(node);
-    })
-        
+    })    
 }
+
+function playData () {
+    var i = 0;
+    var drawStatus = true;
+    var xHeader = document.getElementById("xValue").value;
+    reDrawGraph();
+    i++;
+    if(drawStatus==false){
+        reDrawGraph();
+        i++;
+        console.log("redraw");
+    }
+
+    function dataIterator () {
+        setTimeout(function () {
+            reDrawGraph();
+            i++;
+            if(i < graphHeaders.length) {
+                dataIterator();
+            }
+        },2000)
+    }
+
+    function reDrawGraph () {
+        if(graphHeaders[i] != xHeader) {
+            scatterPlot(countryStats,xHeader,graphHeaders[i]);
+        }
+        else drawStatus = false;
+    }
+
+    dataIterator();
+}
+
+

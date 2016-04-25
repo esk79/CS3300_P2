@@ -18,7 +18,7 @@
     .pointLabel {display:none;}
     .selectedLabel {display:block; font-size:.7em; fill:#FB667A;}
     .axisTitle {fill:#FB667A;}
-    svg {margin-top:50px;}
+    #graph {margin-top:100px;}
 
 </style>
 </head>
@@ -41,6 +41,8 @@
             <br>
             <button type = "button" onclick = "scatterPlot(countryStats,xValue.value,yValue.value); return false;">
                 Update Data</button>
+            <button type = "button" onclick = "playData(); return false;">
+                Play Data</button>
         </form>
 
 
