@@ -36,26 +36,39 @@ var links = [],
     points = []
 
 var svg = d3.select("body").append("svg")
+    .attr("class", "globe")
     .attr("width", width)
     .attr("height", height)
     .on("mousedown", mousedown);
 
-//var svgColor = d3.select("body").append("svg")
-//    .attr("width", "100px")
-//    .attr("height", "10px");
 
-//svg.append("g")
-//    .attr("class", "legend")
-//    .attr("transform", "translate(20,20)");
-//
-//var legend = d3.legend.color()
-//    .shapeWidth(30)
-//    .cells(10)
-//    .orient('horizontal')
-//    .scale(colorScale);
-//
-//svg.select(".legend")
-//    .call(legend);
+var svgColor = d3.select("body").append("svg")
+    .attr("class", "scale")
+    .attr("width", "315px")
+    .attr("height", "100px");
+
+var y = 40
+var r = 2;
+var e = .4
+for(x = 10; x < 300; x += e*45){
+    svgColor.append("circle")
+        .attr("cx", x)
+        .attr("cy", y)
+        .attr("r", radiusScale(r))
+        .attr("fill", colorScale(r));
+    r+=2
+    e+=.15
+}
+
+svgColor.append("text")
+    .text("low")
+    .attr("x", 0)
+    .attr("y", 90)
+
+svgColor.append("text")
+    .text("high")
+    .attr("x", 250)
+    .attr("y", 90)
 
 queue()
     .defer(d3.json, "data/world-110m.json")
@@ -188,13 +201,14 @@ function sortObj(list, clicked, increase) {
         if (a > b) return 1;
         return 0;
     }
+
     var sorted = filtered.sort(compare)
-    if (!reverse){
+    if (!reverse) {
         colorScale.domain([sorted[0][clicked], sorted[sorted.length - 1][clicked]])
         radiusScale.domain([sorted[0][clicked], sorted[sorted.length - 1][clicked]])
-    }else{
+    } else {
         colorScale.domain([sorted[sorted.length - 1][clicked], sorted[0][clicked]])
-        radiusScale.domain([ sorted[sorted.length - 1][clicked], sorted[0][clicked]])
+        radiusScale.domain([sorted[sorted.length - 1][clicked], sorted[0][clicked]])
     }
 
     return increase ? sorted : sorted.reverse()
@@ -245,8 +259,10 @@ function createTable(data, columns, divData) {
         .enter()
         .append("td")
         .html(function (d, i) {
-            if (d.column != "Country"){
-                index = data.map(function(e) {return e[columns[1]]; }).indexOf(d.value) + 2
+            if (d.column != "Country") {
+                index = data.map(function (e) {
+                        return e[columns[1]];
+                    }).indexOf(d.value) + 2
                 return f(d.value)
             }
             if (d.column == "Country")
@@ -257,7 +273,7 @@ function createTable(data, columns, divData) {
     return table;
 }
 
-function clicked(clicked){
+function clicked(clicked) {
     links = []
     points = []
 
@@ -267,7 +283,7 @@ function clicked(clicked){
 
     var oldTable = document.getElementById("table");
 
-    if (oldTable){
+    if (oldTable) {
         console.log("removing")
         oldTable.remove()
     }
@@ -293,10 +309,6 @@ function clicked(clicked){
         points.push(point)
     })
 
-    var popup = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-
     // plot points on map from geoJSON objects
     svg.append("g").attr("class", "points")
         .selectAll("text").data(points)
@@ -306,13 +318,7 @@ function clicked(clicked){
             return d.properties.color
         })
         .on("click", function (d) { // this doesn't appear to work
-            popup.transition()
-                .duration(200)
-                .style("opacity", .9)
-            popup.html(d.properties.country)
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px")
-                .attr("d", path);
+            console.log(d.properties.country)
         })
         .attr("d", path);
 
