@@ -17,7 +17,7 @@ var f = d3.format(".3f")
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(350);
+    .scale(370);
 
 var sky = d3.geo.orthographic()
     .translate([width / 2, height / 2])
@@ -176,11 +176,11 @@ function mouseup() {
 var reverseList = ["Inequality in education", "Gender Equality Rank", "Foot-print", "Governance Index"]
 //http://stackoverflow.com/questions/2466356/javascript-object-list-sorting-by-object-property
 function sortObj(list, clicked, increase) {
-
-    var filtered = list.filter(function (d) {
-        return d[clicked] != ".." && d[clicked] != "NaN" && d[clicked] != "#N/A"
-    })
     var reverse = (reverseList.indexOf(clicked) >= 0)
+    var filtered = list.filter(function (d) {
+        return !isNaN(d[clicked])
+    })
+
     function compare(a, b) {
         a = parseFloat(a[clicked]);
         b = parseFloat(b[clicked]);
@@ -197,10 +197,10 @@ function sortObj(list, clicked, increase) {
         radiusScale.domain([ sorted[sorted.length - 1][clicked], sorted[0][clicked]])
     }
 
-    return increase ? sorted.reverse() : sorted
+    return increase ? sorted : sorted.reverse()
 }
 
-increaseList = ["HDI", "GDP/capita", "Life Expectancy", "Well-Being"]
+increaseList = []
 function createList(clicked) {
     var increase = (increaseList.indexOf(clicked) >= 0)
     sorted = sortObj(countryStats, clicked, increase)
