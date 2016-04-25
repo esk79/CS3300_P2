@@ -184,31 +184,31 @@ function assignHeaders (htmlId, array, nodeType, selected) {
 
 function playData () {
     var i = 0;
+    var timeoutStatus;
     var drawStatus = true;
     var xHeader = document.getElementById("xValue").value;
     reDrawGraph();
     i++;
-    if(drawStatus==false){
-        reDrawGraph();
-        i++;
-        console.log("redraw");
-    }
+    // if(drawStatus==false){
+    //     reDrawGraph();
+    //     i++;
+    // }
 
     function dataIterator () {
-        setTimeout(function () {
+        timeoutStatus = setTimeout(function () {
             reDrawGraph();
             i++;
             if(i < graphHeaders.length) {
                 dataIterator();
             }
-        },2000)
+        },4000)
     }
 
     function reDrawGraph () {
         if(graphHeaders[i] != xHeader) {
             scatterPlot(countryStats,xHeader,graphHeaders[i]);
         }
-        else drawStatus = false;
+        else clearTimeout(timeoutStatus);
     }
 
     dataIterator();
