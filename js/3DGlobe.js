@@ -173,7 +173,7 @@ function mouseup() {
     }
 }
 
-var reverseList = ["Inequality in education", "Gender Equality Rank", "Foot-print", "Governance Index"]
+var reverseList = ["Gender Equality Rank", "Governance Index"]
 //http://stackoverflow.com/questions/2466356/javascript-object-list-sorting-by-object-property
 function sortObj(list, clicked, increase) {
     var reverse = (reverseList.indexOf(clicked) >= 0)
@@ -200,7 +200,7 @@ function sortObj(list, clicked, increase) {
     return increase ? sorted : sorted.reverse()
 }
 
-increaseList = []
+increaseList = ["Gender Equality Rank", "Governance Index"]
 function createList(clicked) {
     var increase = (increaseList.indexOf(clicked) >= 0)
     sorted = sortObj(countryStats, clicked, increase)
