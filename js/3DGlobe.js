@@ -68,7 +68,7 @@ svgColor.append("text")
 
 svgColor.append("text")
     .text("high")
-    .attr("x", 200)
+    .attr("x", 190)
     .attr("y", 90)
     .attr("fill", "#A7A1AE")
 
@@ -154,7 +154,7 @@ function ready(error, world, data) {
         .attr("class", "noclicks")
         .style("fill", "url(#globe_shading)");
 
-    clicked("Suicide Rate")
+    clicked("Life Expectancy")
 }
 
 function refresh() {
