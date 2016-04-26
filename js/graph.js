@@ -28,11 +28,10 @@ var selectedPoints = [];
 var headers = [];
 var allPointsIds = [];
 var graphHeaders = [];
+var playStatus = false;
+var timeoutStatus;
 
 function scatterPlot (objects, xKey, yKey) {
-    // if(d3.select("#graph>svg").length > 0) {
-    // 	d3.select("#graph>svg").remove();
-    // }
 
     if(d3.selectAll("#graph>svg")[0].length < 1) {
         var svg = d3.select("#graph").append("svg")
@@ -184,34 +183,61 @@ function assignHeaders (htmlId, array, nodeType, selected) {
 
 function playData () {
     var i = 0;
-    var timeoutStatus;
     var drawStatus = true;
     var xHeader = document.getElementById("xValue").value;
     reDrawGraph();
     i++;
-    // if(drawStatus==false){
-    //     reDrawGraph();
-    //     i++;
-    // }
+    if(drawStatus==false){
+        drawStatus=true;
+        reDrawGraph();
+        i++;
+    }
 
     function dataIterator () {
         timeoutStatus = setTimeout(function () {
             reDrawGraph();
             i++;
-            if(i < graphHeaders.length) {
-                dataIterator();
+            if(drawStatus==false) {
+                reDrawGraph();
+                drawStatus=true;
             }
-        },4000)
+            if(i < graphHeaders.length && playStatus == true) {
+                dataIterator(playStatus);
+                console.log("Draw: " + playStatus);
+            }
+        },3500)
     }
 
     function reDrawGraph () {
-        if(graphHeaders[i] != xHeader) {
+        if(graphHeaders[i] != xHeader && playStatus == true) {
             scatterPlot(countryStats,xHeader,graphHeaders[i]);
         }
-        else clearTimeout(timeoutStatus);
+        else drawStatus = false; 
     }
 
-    dataIterator();
+    dataIterator(playStatus);
 }
 
+document.getElementById("playButton").onclick = function () {
+    if(playStatus == true) {
+        playStatus = false;
+        clearTimeout(timeoutStatus);
+        document.getElementById("playButton").innerHTML = "Play Data"; 
+    }
+    else if(playStatus == false) {
+        playStatus = true;
+        clearTimeout(timeoutStatus);
+        document.getElementById("playButton").innerHTML = "Stop Data";
+    }
+
+    playData();
+
+    document.getElementById("playButton").innerHTML;
+}
+
+function updateGraph(objects, xKey, yKey) {
+    playStatus = false;
+    clearTimeout(timeoutStatus);
+    scatterPlot(objects, xKey, yKey);
+}
 
