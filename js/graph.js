@@ -239,8 +239,14 @@ function getAxis() {
     d3.selectAll(".axisTitle")
         .on("mouseover", function (title) {
             if(headerDefinitions[this.innerHTML]) {
-                svg.append("text").attr("x",d3.event.pageX).attr("y",d3.event.pageY)
-                    .attr("class","tooltip").text(headerDefinitions[this.innerHTML]);
+                var yLocation = d3.event.pageY - scatterPadding - 100;
+
+                if(yLocation > 400) yLocation = yLocation - 220;
+
+                var tooltip = svg.append("foreignObject").attr("x",d3.event.pageX).attr("y",yLocation)
+                    .attr("class","tooltip").html('<div class = "tooltip">'+headerDefinitions[this.innerHTML]+'</div>');
+                console.log(tooltip[0]);
+                tooltip[0][0].y.baseVal.value;
             }
         })
         .on("mouseout", function (title) {
