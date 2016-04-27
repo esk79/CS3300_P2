@@ -5,10 +5,10 @@
 <script src="https://d3js.org/queue.v1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="style/main.css">
 <script src = "js/headers.js"></script>
+<link href='https://fonts.googleapis.com/css?family=Comfortaa:400,300' rel='stylesheet' type='text/css'>
+<Title>Explore the Data | Country Comparison Breakdown</Title>
 
 <style>
-	/*body { font-family: "Futura"; } div { margin: 30px; }*/
-    /*svg { background-color: #f0f0f0; }*/
     .fullBar { fill: #ccc; }
     .premiseBar { fill:rgb(255,165,0); }
     .axis path { fill: none; stroke: #aaa; }
@@ -23,15 +23,20 @@
     .tooltip {
         width:250;
         margin-bottom:10px;
-        color:rgba(200,255,0,.6);
-        background-color:rgba(200,0,255,.4);
+        color:black;
+        background-color:#AAAAAA;
         padding:10px;
+        font-family:"Times";
+        font-size:.9em;
+        box-shadow: 1px 1px 1px black;
     }
 
 </style>
 </head>
 <body>
     
+    <h1 class="title">Country Comparison Breakdown</h1>
+    <a class = "pageLink" href="index.html">Data Overview</a>
     <div id="header"></div>
 
     <div id = "graph">
@@ -44,9 +49,9 @@
             <select id = "yValue" name = "yValue">
             </select>
             <br>
-            <button id = "updateButton" type = "button" onclick = "updateGraph(countryStats,xValue.value,yValue.value); return false;">
+            <button class = "button" id = "updateButton" type = "button" onclick = "updateGraph(countryStats,xValue.value,yValue.value); return false;">
                 Update Data</button>
-            <button id = "playButton" type = "button" onclick = "return false;">
+            <button class = "button" id = "playButton" type = "button" onclick = "return false;">
                 Play Data</button>
         </form>
 

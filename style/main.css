@@ -12,6 +12,7 @@ body {
     font-weight: 300;
     color: #A7A1AE;
     background-color: #1F2739;
+    min-width:1000px;
 }
 h1 {
     font-size: 3em;
@@ -40,3 +41,16 @@ h2 {
     color: #1F2739;
     font-weight: 400;
 }
+
+.pageLink {
+    position:fixed;
+    left: 950px;
+    top: 40px;
+    z-index: 10;
+    font-size: 25px;
+    color: #1F2739;
+    font-weight: 400;
+    text-align: right;
+}
+
+
