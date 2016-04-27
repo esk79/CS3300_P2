@@ -7,11 +7,8 @@ function ready(error, data) {
     if (error)   //If error is not null, something went wrong.
         console.log(error) //Log the error.
 
-// console.log(data);
     countryStats = data;
     
-    // console.log(countryStats);
-
     headers = Object.keys(countryStats[0]);
     scatterPlot(countryStats,headers[2],headers[3]);
     assignHeaders("xValue",headers,"option",2);
@@ -78,9 +75,6 @@ function scatterPlot (objects, xKey, yKey) {
         .text(yKey).attr("class", "axisTitle");
 
     objects.forEach(function (data) {
-        // console.log(data);
-        // console.log(xKey);
-        // console.log(yKey);
 
         var pointName = data["Country"];
      	var xValue = Number(data[xKey]);
@@ -122,7 +116,6 @@ function scatterPlot (objects, xKey, yKey) {
         else {
             d3.select("#" + pointID).remove();
             d3.select("#label" + pointID).remove();
-            // console.log("removed: " + pointID);
         }
     });
 
@@ -135,6 +128,7 @@ function scatterPlot (objects, xKey, yKey) {
         allPointsIds.push(point.id);
     });
     getPoints();
+    getAxis();
 }
 
 function getPoints () {
@@ -203,7 +197,6 @@ function playData () {
             }
             if(i < graphHeaders.length && playStatus == true) {
                 dataIterator(playStatus);
-                console.log("Draw: " + playStatus);
             }
         },3500)
     }
@@ -231,13 +224,31 @@ document.getElementById("playButton").onclick = function () {
     }
 
     playData();
-
-    document.getElementById("playButton").innerHTML;
 }
 
 function updateGraph(objects, xKey, yKey) {
     playStatus = false;
     clearTimeout(timeoutStatus);
+    document.getElementById("playButton").innerHTML = "Play Data"; 
     scatterPlot(objects, xKey, yKey);
 }
+
+function getAxis() {
+    var svg = d3.select("#graph>svg")
+
+    d3.selectAll(".axisTitle")
+        .on("mouseover", function (title) {
+            if(headerDefinitions[this.innerHTML]) {
+                svg.append("text").attr("x",d3.event.pageX).attr("y",d3.event.pageY)
+                    .attr("class","tooltip").text(headerDefinitions[this.innerHTML]);
+            }
+        })
+        .on("mouseout", function (title) {
+            d3.selectAll(".tooltip").remove();
+        })
+}
+
+
+
+
 
