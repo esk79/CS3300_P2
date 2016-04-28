@@ -237,9 +237,9 @@ function getAxis() {
     d3.selectAll(".axisTitle")
         .on("mouseover", function (title) {
             if(headerDefinitions[this.innerHTML]) {
-                var yLocation = d3.event.pageY - scatterPadding - 120;
+                var yLocation = d3.event.pageY - scatterPadding - 200;
 
-                if(yLocation > 400) yLocation = yLocation - 100;
+                if(yLocation > 400) yLocation = yLocation - 75;
 
                 var tooltip = svg.append("foreignObject").attr("x",d3.event.pageX).attr("y",yLocation)
                     .attr("class","tooltip").html('<div class = "tooltip">'+headerDefinitions[this.innerHTML]+'</div>');
