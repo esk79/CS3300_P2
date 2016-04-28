@@ -25,7 +25,7 @@ function getWindowSize(){
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(getWindowSize()[0]/4.8);
+    .scale(getWindowSize()[0]/4.8); //TODO: currently we divide screen swidth by 4.8 for the size of the globe
 
 var sky = d3.geo.orthographic()
     .translate([width / 2, height / 2])
