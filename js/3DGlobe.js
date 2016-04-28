@@ -433,6 +433,7 @@ function clicked(clicked) {
     var gWidth = 550;
     var gHeight = 325;
 
+    d3.select("#hist").select("svg").remove();
     genBarChart("#hist", gMargins, gWidth, gHeight, "United States of America");
 
     // plot points on map from geoJSON objects
