@@ -195,6 +195,7 @@ function playData () {
             if(i < graphHeaders.length && playStatus == true) {
                 dataIterator(playStatus);
             }
+            else document.getElementById("playButton").innerHTML = "Play Data";
         },3500)
     }
 
