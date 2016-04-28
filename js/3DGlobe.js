@@ -275,12 +275,21 @@ function createTable(data, columns, divData) {
     return table;
 }
 
-/* function to create a bar chart taking inputs div id where chart goes,
-associative array of chart margins, width and height of chart, 
-and country whose stats to display */
+/* 
+    function to create a bar chart taking inputs: 
+        div id where chart goes,
+        associative array of chart margins, 
+        width and height of chart, 
+        country whose stats to display. 
+    tutorials/references used: 
+        http://jrue.github.io/coding/2014/exercises/basicbarchart/
+        https://bl.ocks.org/mbostock/ 
+*/
 function genBarChart (divid, margins, width, height, country) {
     d3.csv("data/data.csv", function(d) {
         return {
+            // associate data labels to quantitative form of data
+            // these double as accessor variables & x-axis labels
             Country : d.Country,
             HDI : +d["HDI rank"],
             WellBeing : +d["Well-Being rank"],
@@ -298,15 +307,15 @@ function genBarChart (divid, margins, width, height, country) {
 
         if (error) throw error;
 
+        // get all variables/labels except the country
         var colNames = d3.keys(data[0]).filter(function(key) { return key !== "Country"; });
 
-        //console.log(d.nameval);
 
+        // for the given country, create associative array mapping the country name to the 'key' key, 
+        // the variable names to the 'name' key, and the variable values to the 'value' key
         data.forEach(function (d) {
             if (d.Country == country) {
                 d.nameval = colNames.map(function(name) { return { key : d.Country, name: name, value: +d[name]}; });
-                //console.log(d.nameval[0]);
-                //console.log(d.nameval[1]);
             };
         });
 
@@ -326,6 +335,8 @@ function genBarChart (divid, margins, width, height, country) {
         .scale(yScale)
         .orient("left");
 
+        // append svg to given div id
+        // and set data to tuple of given country
         var svg = d3.select(divid)
         .append("svg")
         .attr("width", width)
@@ -338,6 +349,8 @@ function genBarChart (divid, margins, width, height, country) {
             };
         }));
 
+        // set data for bars to name-key-value
+        // associative array and append bars
         var barGroup = svg.selectAll(".bar")
         .data(function(d) {return d.nameval; })
         .enter().append("rect")
@@ -347,33 +360,37 @@ function genBarChart (divid, margins, width, height, country) {
         .attr("height", function (d) { return yScale((data.length-d.value+1)); })
         .attr("width", xScale.rangeBand()-1);
 
+        // append y-axis
         svg.append("g")
         .attr("class", "y-axis")
         .attr("transform", "translate(" + margins.left + "," + 0 + ")")
         .call(yAxis);
 
+        // append x-axis
         svg.append("g")
         .attr("class", "x-axis")
         .attr("transform", "translate(" + margins.left + "," +  (height - margins.bottom - margins.top) + ")")
         .call(xAxis);
 
-    svg.append("text")
-    .attr("class", "label")
-    .attr("transform", "translate("+(width/2)+",0)")
-    .text(country + "'s ranking in different areas");
+        // append title
+        svg.append("text")
+        .attr("class", "label")
+        .attr("transform", "translate("+(width/2)+",0)")
+        .text(country + "'s ranking in different areas");
 
-    svg.append("text")
-    .attr("class", "label")
-    .attr("transform", "translate(15" + "," + ((height/2)-(height/8)) + ")rotate(-90)")
-    .text("rank (1st to 152nd)");
+        // append y-axis label
+        svg.append("text")
+        .attr("class", "label")
+        .attr("transform", "translate(15" + "," + ((height/2)-(height/8)) + ")rotate(-90)")
+        .text("rank (1st to 152nd)");
 
-    svg.append("text")
-    .attr("class", "label")
-    
-    .attr("transform", "translate("+(width/2)+","+(height-margins.bottom-10)+")")
-    .text("variables");
+        // append x-axis label
+        svg.append("text")
+        .attr("class", "label")
+        .attr("transform", "translate("+(width/2)+","+(height-margins.bottom-10)+")")
+        .text("variables");
 
-    });
+        });
 }
 
 function clicked(clicked) {
