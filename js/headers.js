@@ -1,5 +1,5 @@
 var headerDefinitions = {
-	"HDI":"The HPI (Happy Planet Index) measures what matters: the extent to which countries deliver long, happy, sustainable lives for the people that live in them. The Index uses global data on life expectancy, experienced well-being and Ecological Footprint to calculate this.",
+	"HDI":"The Human Development Index (HDI) is a tool developed by the United Nations to measure and rank countries' levels of social and economic development based on four criteria: Life expectancy at birth, mean years of schooling, expected years of schooling and gross national income per capita.",
 	"Well-Being": "Arithmetic mean of individual responses to the Ladder of Life question in the Gallup World Poll.  Latest data for each country as at February 2012.",
 	"Life Expectancy": "2011 data taken from UNDP Human Development Report 2011",
 	"GDP/capita": "Taken from World Bank World Development Indicators 2010 ($PPP Current prices). For Bahrain, Iran, Libya, Djibouti and Qatar, Cuba, Kuwait and Zimbabwe 2010 data were not available, so the most upto date WDI data available were used.",
