@@ -8,11 +8,6 @@ function ready(error, data) {
         console.log(error) //Log the error.
 
     countryStats = data;
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> master
     headers = Object.keys(countryStats[0]);
     scatterPlot(countryStats,headers[2],headers[3]);
     assignHeaders("xValue",headers,"option",2);
@@ -36,11 +31,7 @@ function scatterPlot (objects, xKey, yKey) {
 
     if(d3.selectAll("#graph>svg")[0].length < 1) {
         var svg = d3.select("#graph").append("svg")
-<<<<<<< HEAD
           .attr("height", scatterHeight).attr("width", scatterWidth);
-=======
-            .attr("height", scatterHeight).attr("width", scatterWidth);
->>>>>>> master
     }
     else svg = d3.select("#graph>svg");
 
@@ -49,17 +40,6 @@ function scatterPlot (objects, xKey, yKey) {
 
     //max and min x and y values
     objects.forEach(function (data) {
-<<<<<<< HEAD
-    	var xValue = data[xKey];
-    	var yValue = data[yKey];
-
-    	if (xValue > xMax && !isNaN(xValue)) {
-    		xMax = xValue*1.05;
-    	}
-    	if (yValue > yMax && !isNaN(yValue)) {
-    		yMax = yValue*1.05;
-    	}
-=======
         var xValue = data[xKey];
         var yValue = data[yKey];
 
@@ -69,7 +49,6 @@ function scatterPlot (objects, xKey, yKey) {
         if (yValue > yMax && !isNaN(yValue)) {
             yMax = yValue*1.05;
         }
->>>>>>> master
     })
 
     //set up scales
@@ -77,11 +56,6 @@ function scatterPlot (objects, xKey, yKey) {
     yScale = d3.scale.linear().domain([0,yMax]).range([scatterHeight - scatterPadding,scatterPadding]);
 
     //add axis
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> master
     d3.selectAll(".axis").remove();
     var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
     svg.append("g").attr("class", "axis").attr("transform", "translate(0," + yScale(0) + ")").call(xAxis);
@@ -94,24 +68,15 @@ function scatterPlot (objects, xKey, yKey) {
     svg.append("text").attr("x",scatterWidth/3).attr("y",25).attr("class","axisTitle").
     text("Graph of " + yKey + " vs " + xKey);
     svg.append("text").attr("x",scatterWidth/2.3).attr("fill","#cccc").attr("y",scatterHeight-10)
-<<<<<<< HEAD
-      .attr("class","axisTitle").text(xKey);
-=======
         .attr("class","axisTitle").text(xKey);
->>>>>>> master
     svg.append("text").attr("x",20).attr("y",scatterHeight/2+20).attr("transform","rotate(270,20,"+(scatterHeight/2+20)+")")
         .text(yKey).attr("class", "axisTitle");
 
     objects.forEach(function (data) {
 
         var pointName = data["Country"];
-<<<<<<< HEAD
-     	var xValue = Number(data[xKey]);
-     	var yValue = Number(data[yKey]);
-=======
         var xValue = Number(data[xKey]);
         var yValue = Number(data[yKey]);
->>>>>>> master
         var pointID = pointName;
 
         if (pointName.search(" ")) {
@@ -119,11 +84,6 @@ function scatterPlot (objects, xKey, yKey) {
         }
 
         if(!isNaN(xValue) && !isNaN(yValue)) {
-<<<<<<< HEAD
-            
-=======
-
->>>>>>> master
             if(allPointsIds.indexOf(pointID) > -1) {
                 var currentPoint = document.getElementById(pointID);
                 var currentLabel = document.getElementById("label" + pointID);
@@ -209,11 +169,7 @@ function assignHeaders (htmlId, array, nodeType, selected) {
         var text = document.createTextNode(header);
         node.appendChild(text);
         parentNode.appendChild(node);
-<<<<<<< HEAD
-    })    
-=======
     })
->>>>>>> master
 }
 
 function playData () {
@@ -246,11 +202,7 @@ function playData () {
         if(graphHeaders[i] != xHeader && playStatus == true) {
             scatterPlot(countryStats,xHeader,graphHeaders[i]);
         }
-<<<<<<< HEAD
-        else drawStatus = false; 
-=======
         else drawStatus = false;
->>>>>>> master
     }
 
     dataIterator(playStatus);
@@ -260,11 +212,7 @@ document.getElementById("playButton").onclick = function () {
     if(playStatus == true) {
         playStatus = false;
         clearTimeout(timeoutStatus);
-<<<<<<< HEAD
-        document.getElementById("playButton").innerHTML = "Play Data"; 
-=======
         document.getElementById("playButton").innerHTML = "Play Data";
->>>>>>> master
     }
     else if(playStatus == false) {
         playStatus = true;
@@ -278,11 +226,7 @@ document.getElementById("playButton").onclick = function () {
 function updateGraph(objects, xKey, yKey) {
     playStatus = false;
     clearTimeout(timeoutStatus);
-<<<<<<< HEAD
-    document.getElementById("playButton").innerHTML = "Play Data"; 
-=======
     document.getElementById("playButton").innerHTML = "Play Data";
->>>>>>> master
     scatterPlot(objects, xKey, yKey);
 }
 
@@ -292,15 +236,9 @@ function getAxis() {
     d3.selectAll(".axisTitle")
         .on("mouseover", function (title) {
             if(headerDefinitions[this.innerHTML]) {
-<<<<<<< HEAD
                 var yLocation = d3.event.pageY - scatterPadding - 120;
 
                 if(yLocation > 400) yLocation = yLocation - 100;
-=======
-                var yLocation = d3.event.pageY - scatterPadding - 100;
-
-                if(yLocation > 400) yLocation = yLocation - 220;
->>>>>>> master
 
                 var tooltip = svg.append("foreignObject").attr("x",d3.event.pageX).attr("y",yLocation)
                     .attr("class","tooltip").html('<div class = "tooltip">'+headerDefinitions[this.innerHTML]+'</div>');
@@ -316,7 +254,3 @@ function getAxis() {
 
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
