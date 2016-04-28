@@ -14,10 +14,18 @@ var radiusScale = d3.scale.sqrt().domain([0, 10]).range([0, 20])
 
 var f = d3.format(".3f")
 
+//http://stackoverflow.com/questions/2474009/browser-size-width-and-height
+function getWindowSize(){
+    var d= document, root= d.documentElement, body= d.body;
+    var wid= window.innerWidth || root.clientWidth || body.clientWidth,
+        hi= window.innerHeight || root.clientHeight || body.clientHeight ;
+    return [wid,hi]
+}
+
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(340);
+    .scale(getWindowSize()[0]/4.8);
 
 var sky = d3.geo.orthographic()
     .translate([width / 2, height / 2])
