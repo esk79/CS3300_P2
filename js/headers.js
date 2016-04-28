@@ -9,7 +9,7 @@ var headerDefinitions = {
 	"Inequality in education": "Inequality in distribution of years of schooling based on data from household surveys estimated using the Atkinson inequality index.",
 	"Incarceration Rate": "Number of incarcerated individuals per 100,000",
 	"Suicide Rate": "Age standardized suicide rates (per 100,000)",
-	"Homocide Rate": "Homocides per 100,000.",
+	"Homicide Rate": "Homocides per 100,000.",
 	"Income Inequality": "The ratio of the average income of the richest 20% to the poorest 20%.",
 	"Region": "1-Latin America\n2-Western World\n3-Middle East and North Africa\n4-Sub Saharan Africa\n5-South Asia\n6-East Asia\n7-Transition States",
 };
