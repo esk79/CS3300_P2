@@ -21,10 +21,12 @@
 <body>
 	<div id="bargraph"></div>
 	<script>
-		var gMargins = {top:30, right:40, bottom:50, left:40};
-		var gWidth = 700;
-		var gHeight = 400;
+	var gMargins = {top:30, right:40, bottom:50, left:40};
+	var gWidth = 700;
+	var gHeight = 400;
 
+	// for this version still have to replace stuff like "Japan"
+	// with 'country' variable & ditto for width, height and margins
 	function genBarChart (margins, width, height, country) {
 		d3.csv("data/data.csv", function(d) {
 			return {
