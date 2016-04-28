@@ -17,7 +17,7 @@ var f = d3.format(".3f")
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(370);
+    .scale(340);
 
 var sky = d3.geo.orthographic()
     .translate([width / 2, height / 2])
