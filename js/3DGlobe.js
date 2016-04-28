@@ -275,6 +275,107 @@ function createTable(data, columns, divData) {
     return table;
 }
 
+/* function to create a bar chart taking inputs div id where chart goes,
+associative array of chart margins, width and height of chart, 
+and country whose stats to display */
+function genBarChart (divid, margins, width, height, country) {
+    d3.csv("data/data.csv", function(d) {
+        return {
+            Country : d.Country,
+            HDI : +d["HDI rank"],
+            WellBeing : +d["Well-Being rank"],
+            LifeExp : +d["Life Expectancy rank"],
+            GDP : +d["GDP/capita rank"],
+            Footprint : +d["Foot-print rank"],
+            GovIndex : +d["Governance Index rank"],
+            EduIneq : +d["Inequality in education rank"],
+            Incarceration : +d["Incarceration Rate rank"],
+            Suicide : +d["Suicide Rate rank"],
+            Homicide : +d["Homocide Rate rank"],
+            IncomeIneq : +d['Income Inequality rank']
+        };
+    }, function (error, data) {
+
+        if (error) throw error;
+
+        var colNames = d3.keys(data[0]).filter(function(key) { return key !== "Country"; });
+
+        //console.log(d.nameval);
+
+        data.forEach(function (d) {
+            if (d.Country == country) {
+                d.nameval = colNames.map(function(name) { return { key : d.Country, name: name, value: +d[name]}; });
+                //console.log(d.nameval[0]);
+                //console.log(d.nameval[1]);
+            };
+        });
+
+        var xScale = d3.scale.ordinal()
+        .rangeRoundBands([0, width - margins.right - margins.left], .1)
+        .domain(colNames.map(function (d) { return d; }));
+
+        var yScale = d3.scale.linear()
+        .range([1, height - margins.bottom - margins.top])
+        .domain([1, data.length+1]);
+
+        var xAxis = d3.svg.axis()
+        .scale(xScale)
+        .orient("bottom");
+
+        var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left");
+
+        var svg = d3.select(divid)
+        .append("svg")
+        .attr("width", width)
+        .attr("height", height)
+        .append("g")
+        .attr("transform", "translate(" + margins.left + "," + margins.top + ")")
+        .data(data.filter(function(d) { 
+            if(d.Country == country) {
+                return d;
+            };
+        }));
+
+        var barGroup = svg.selectAll(".bar")
+        .data(function(d) {return d.nameval; })
+        .enter().append("rect")
+        .attr("class", "bar")
+        .attr("x", function (d) { return margins.left + xScale(d.name);})
+        .attr("y", function (d) { return height - margins.bottom - margins.top - yScale((data.length-d.value+1)); })
+        .attr("height", function (d) { return yScale((data.length-d.value+1)); })
+        .attr("width", xScale.rangeBand()-1);
+
+        svg.append("g")
+        .attr("class", "y-axis")
+        .attr("transform", "translate(" + margins.left + "," + 0 + ")")
+        .call(yAxis);
+
+        svg.append("g")
+        .attr("class", "x-axis")
+        .attr("transform", "translate(" + margins.left + "," +  (height - margins.bottom - margins.top) + ")")
+        .call(xAxis);
+
+    svg.append("text")
+    .attr("class", "label")
+    .attr("transform", "translate("+(width/2)+",0)")
+    .text(country + "'s ranking in different areas");
+
+    svg.append("text")
+    .attr("class", "label")
+    .attr("transform", "translate(15" + "," + ((height/2)-(height/8)) + ")rotate(-90)")
+    .text("rank (1st to 152nd)");
+
+    svg.append("text")
+    .attr("class", "label")
+    
+    .attr("transform", "translate("+(width/2)+","+(height-margins.bottom-10)+")")
+    .text("variables");
+
+    });
+}
+
 function clicked(clicked) {
     links = []
     points = []
@@ -311,6 +412,12 @@ function clicked(clicked) {
         points.push(point)
     })
 
+    var gMargins = {top:40, right:40, bottom:50, left:40};
+    var gWidth = 550;
+    var gHeight = 325;
+
+    genBarChart("#hist", gMargins, gWidth, gHeight, "United States of America");
+
     // plot points on map from geoJSON objects
     svg.append("g").attr("class", "points")
         .selectAll("text").data(points)
@@ -320,7 +427,8 @@ function clicked(clicked) {
             return d.properties.color
         })
         .on("click", function (d) { // this doesn't appear to work
-            console.log(d.properties.country)
+            d3.select("#hist").select("svg").remove();
+            genBarChart("#hist", gMargins, gWidth, gHeight, d.properties.country);
         })
         .attr("d", path);
 

@@ -1,0 +1,23 @@
+#hist {
+	width: 30%;
+	height: auto;
+	position: absolute;
+	left: 63%;
+	z-index: -1;
+	margin-top: 5%;
+}
+.y-axis, .x-axis {
+	fill: none;
+	stroke: #A7A1AE;
+	stroke-width: 1px;
+	font-size: 7px;
+}
+.bar {
+	stroke: none;
+	fill: steelblue;
+}
+.label {
+	text-anchor: middle;
+	font-size: 12px;
+	stroke: #FB667A;
+}

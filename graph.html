@@ -1,5 +1,6 @@
 <html>
 <head>
+<<<<<<< HEAD
 <!-- Load the d3 library. -->
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/queue.v1.min.js"></script>
@@ -57,6 +58,102 @@
 
 
 <script src = "js/graph.js"></script>
+=======
+    <!-- Load the d3 library. -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/queue.v1.min.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa:400,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="style/main.css">
+    <link rel="stylesheet" type="text/css" href="style/graphButton.css">
+    <script src="js/headers.js"></script>
+
+    <style>
+        /*body { font-family: "Futura"; } div { margin: 30px; }*/
+        /*svg { background-color: #f0f0f0; }*/
+        .fullBar {
+            fill: #ccc;
+        }
+
+        .premiseBar {
+            fill: rgb(255, 165, 0);
+        }
+
+        .axis path {
+            fill: none;
+            stroke: #aaa;
+        }
+
+        .axis line {
+            stroke: #FB667A;
+        }
+
+        .axis text {
+            fill: #FB667A;
+            font-size: .7em;
+        }
+
+        .graphPoint {
+            fill: rgba(200, 0, 255, .4);
+        }
+
+        .selectedPoint {
+            fill: rgba(200, 255, 0, .6);
+        }
+
+        .pointLabel {
+            display: none;
+        }
+
+        .selectedLabel {
+            display: block;
+            font-size: .7em;
+            fill: #FB667A;
+        }
+
+        .axisTitle {
+            fill: #FB667A;
+        }
+
+        #graph {
+            margin-top: 100px;
+        }
+
+        .tooltip {
+            width: 250px;
+            margin-bottom: 10px;
+            color: rgba(200, 255, 0, .6);
+            background-color: rgba(200, 0, 255, .4);
+            padding: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<h1 class="title">Country Comparison Breakdown</h1>
+<div id="header"></div>
+
+<div id="graph">
+    <form id="selectData">
+        X-Value:
+        <select class="button" id="xValue" name="xValue">
+        </select>
+        <br>
+        Y-Value:
+        <select class="button" id="yValue" name="yValue">
+        </select>
+        <br>
+        <button class="button" id="updateButton" type="button"
+                onclick="updateGraph(countryStats,xValue.value,yValue.value); return false;">
+            Update Data
+        </button>
+        <button class="button" id="playButton" type="button" onclick="return false;">
+            Play Data
+        </button>
+    </form>
+
+
+    <script src="js/graph.js"></script>
+>>>>>>> master
 
 
 </body>
