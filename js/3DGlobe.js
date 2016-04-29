@@ -90,7 +90,7 @@ function ready(error, world, data) {
         .attr("cy", "25%");
     ocean_fill.append("stop").attr("offset", "5%").attr("stop-color", "#fff");
     ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ababab");
-    console.log(ocean_fill);
+    // console.log(ocean_fill);
 
     var globe_highlight = svg.append("defs").append("radialGradient")
         .attr("id", "globe_highlight")
@@ -405,7 +405,7 @@ function clicked(clicked) {
     var oldTable = document.getElementById("table");
 
     if (oldTable) {
-        console.log("removing")
+        // console.log("removing")
         oldTable.remove()
     }
     var table = document.createElement('div');
