@@ -1,0 +1,30 @@
+.button {
+    display: inline-block;
+    margin-right: 5px;
+    height: 30px;
+    min-width: 80px;
+    background: #323C50;
+    border: none;
+    outline: none;
+    color: #AAAAAA;
+    font-family: inherit;
+    font-weight: 300;
+    font-size: 15px;
+    border-radius: 3px;
+    box-shadow: 0 2px 0px #293242;
+    border-bottom: 1px solid #232a38;
+    margin-top: 10px;
+}
+
+.button:hover{
+     background: #323C50;
+     box-shadow: 0 2px 1px #293242;
+     border-bottom: 1px solid #232a38;
+     transition: all 0.1s ease-in;
+ }
+
+.button:active{
+     transform:translateY(2px);
+     border-bottom-width: 1px;
+     box-shadow: none;
+ }
