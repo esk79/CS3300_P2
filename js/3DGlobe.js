@@ -25,7 +25,7 @@ function getWindowSize(){
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(getWindowSize()[0]/4.8);
+    .scale(getWindowSize()[0]/4.8)
     .scale(width*.34);
 
 var sky = d3.geo.orthographic()
