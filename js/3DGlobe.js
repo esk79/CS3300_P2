@@ -6,7 +6,7 @@ d3.select(window)
     .on("mousemove", mousemove)
     .on("mouseup", mouseup);
 
-var width = 1000,
+var width = 850,
     height = 750;
 
 var colorScale = d3.scale.linear().domain([0, 10]).range(['#8b0000', '#004499']) //just two random colors for now
@@ -25,12 +25,13 @@ function getWindowSize(){
 var proj = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(getWindowSize()[0]/4.8); //TODO: currently we divide screen swidth by 4.8 for the size of the globe
+    .scale(getWindowSize()[0]/4.8);
+    .scale(width*.34);
 
 var sky = d3.geo.orthographic()
     .translate([width / 2, height / 2])
     .clipAngle(90)
-    .scale(300);
+    .scale(width*.3);
 
 var path = d3.geo.path().projection(proj).pointRadius(function (d) {
     if (d.type != "MultiPolygon") {
@@ -98,6 +99,7 @@ function ready(error, world, data) {
         .attr("cy", "25%");
     ocean_fill.append("stop").attr("offset", "5%").attr("stop-color", "#fff");
     ocean_fill.append("stop").attr("offset", "100%").attr("stop-color", "#ababab");
+    // console.log(ocean_fill);
 
     var globe_highlight = svg.append("defs").append("radialGradient")
         .attr("id", "globe_highlight")
@@ -367,7 +369,7 @@ function genBarChart (divid, margins, width, height, country) {
         .attr("y", function (d) { return height - margins.bottom - margins.top - yScale((data.length-d.value+1)); })
         .attr("height", function (d) { return yScale((data.length-d.value+1)); })
         .attr("width", xScale.rangeBand()-1);
-
+        
         // append y-axis
         svg.append("g")
         .attr("class", "y-axis")
@@ -412,7 +414,7 @@ function clicked(clicked) {
     var oldTable = document.getElementById("table");
 
     if (oldTable) {
-        console.log("removing")
+        // console.log("removing")
         oldTable.remove()
     }
     var table = document.createElement('div');

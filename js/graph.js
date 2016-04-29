@@ -8,7 +8,6 @@ function ready(error, data) {
         console.log(error) //Log the error.
 
     countryStats = data;
-
     headers = Object.keys(countryStats[0]);
     scatterPlot(countryStats,headers[2],headers[3]);
     assignHeaders("xValue",headers,"option",2);
@@ -32,7 +31,7 @@ function scatterPlot (objects, xKey, yKey) {
 
     if(d3.selectAll("#graph>svg")[0].length < 1) {
         var svg = d3.select("#graph").append("svg")
-            .attr("height", scatterHeight).attr("width", scatterWidth);
+          .attr("height", scatterHeight).attr("width", scatterWidth);
     }
     else svg = d3.select("#graph>svg");
 
@@ -57,7 +56,6 @@ function scatterPlot (objects, xKey, yKey) {
     yScale = d3.scale.linear().domain([0,yMax]).range([scatterHeight - scatterPadding,scatterPadding]);
 
     //add axis
-
     d3.selectAll(".axis").remove();
     var xAxis = d3.svg.axis().scale(xScale).orient("bottom").ticks(5);
     svg.append("g").attr("class", "axis").attr("transform", "translate(0," + yScale(0) + ")").call(xAxis);
@@ -86,7 +84,6 @@ function scatterPlot (objects, xKey, yKey) {
         }
 
         if(!isNaN(xValue) && !isNaN(yValue)) {
-
             if(allPointsIds.indexOf(pointID) > -1) {
                 var currentPoint = document.getElementById(pointID);
                 var currentLabel = document.getElementById("label" + pointID);
@@ -198,6 +195,7 @@ function playData () {
             if(i < graphHeaders.length && playStatus == true) {
                 dataIterator(playStatus);
             }
+            else document.getElementById("playButton").innerHTML = "Play Data";
         },3500)
     }
 
@@ -239,9 +237,9 @@ function getAxis() {
     d3.selectAll(".axisTitle")
         .on("mouseover", function (title) {
             if(headerDefinitions[this.innerHTML]) {
-                var yLocation = d3.event.pageY - scatterPadding - 100;
+                var yLocation = d3.event.pageY - scatterPadding - 200;
 
-                if(yLocation > 400) yLocation = yLocation - 220;
+                if(yLocation > 400) yLocation = yLocation - 75;
 
                 var tooltip = svg.append("foreignObject").attr("x",d3.event.pageX).attr("y",yLocation)
                     .attr("class","tooltip").html('<div class = "tooltip">'+headerDefinitions[this.innerHTML]+'</div>');
