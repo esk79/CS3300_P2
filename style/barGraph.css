@@ -2,9 +2,9 @@
 	width: 30%;
 	height: auto;
 	position: absolute;
-	left: 63%;
+	left: 885px;
 	z-index: -1;
-	margin-top: 5%;
+	margin-top: 70px;
 }
 .y-axis, .x-axis {
 	fill: none;

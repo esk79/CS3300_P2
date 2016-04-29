@@ -1,5 +1,6 @@
 <html>
 <head>
+
     <!-- Load the d3 library. -->
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://d3js.org/queue.v1.min.js"></script>
@@ -7,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="style/main.css">
     <link rel="stylesheet" type="text/css" href="style/graphButton.css">
     <script src="js/headers.js"></script>
+    <Title>Explore the Data | Country Comparison Breakdown</Title>
+
 
     <style>
         /*body { font-family: "Futura"; } div { margin: 30px; }*/
@@ -60,17 +63,21 @@
         }
 
         .tooltip {
-            width: 250px;
-            margin-bottom: 10px;
-            color: rgba(200, 255, 0, .6);
-            background-color: rgba(200, 0, 255, .4);
-            padding: 10px;
+            width:250;
+            margin-bottom:10px;
+            color:black;
+            background-color:#AAAAAA;
+            padding:10px;
+            font-family:"Times";
+            font-size:.9em;
+            box-shadow: 1px 1px 1px black;
         }
 
     </style>
 </head>
 <body>
 <h1 class="title">Country Comparison Breakdown</h1>
+<a class = "pageLink" href="index.html">>Data Overview</a>
 <div id="header"></div>
 
 <div id="graph">
