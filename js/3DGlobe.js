@@ -366,8 +366,8 @@ function genBarChart (divid, margins, width, height, country) {
         .enter().append("rect")
         .attr("class", "bar")
         .attr("x", function (d) { return margins.left + xScale(d.name);})
-        .attr("y", function (d) { return height - margins.bottom - margins.top - yScale((data.length-d.value+1)); })
-        .attr("height", function (d) { return yScale((data.length-d.value+1)); })
+        .attr("y", function (d) { if(isNaN(d.value) || isNaN(d.value)) { d.value = 0; }; return height - margins.bottom - margins.top - yScale((data.length-d.value+1)); })
+        .attr("height", function (d) { if(isNaN(d.value) || isNaN(d.value)) { d.value = 0; }; return yScale((data.length-d.value+1)); })
         .attr("width", xScale.rangeBand()-1);
         
         // append y-axis
