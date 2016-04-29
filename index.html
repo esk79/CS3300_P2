@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
+    body {
+        min-width:1400px !important;
+    }
+
     .land {
         fill: #999;
         stroke-opacity: 1;
@@ -22,10 +26,11 @@
     }
 
     .globe {
-        margin-top: 7%;
+        margin-top: 100px;
         position: absolute;
-        left: 12%;
+        left: 175px;
         display: block;
+        z-index:-10;
     }
 
     #table {
@@ -55,10 +60,11 @@
     <link rel="stylesheet" type="text/css" href="style/main.css">
     <link rel="stylesheet" type="text/css" href="style/barGraph.css">
 </header>
-<Title>3300 P2</Title>
+<Title>Explore the Data | Country Comparison Breakdown</Title>
 <body>
 <script src="js/3DGlobe.js"></script>
 <h1 class="title">Country Comparison Breakdown</h1>
+<a class = "pageLink" href="graph.html">> Explore the Data</a>
 <div id="header"></div>
 <div id="hist"></div>
     <div>
